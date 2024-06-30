@@ -9,6 +9,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
+using System.Numerics;
 
 namespace ProjectsTracker
 {
@@ -17,11 +18,16 @@ namespace ProjectsTracker
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// Dashboard containing all the projects and solutions
+        /// </summary>
+        private src.Dashboard dashboard;
+
         public MainWindow()
         {
             InitializeComponent();
 
-            Trace.WriteLine("Main Window");
+            dashboard = new src.Dashboard();
         }
     }
 }
