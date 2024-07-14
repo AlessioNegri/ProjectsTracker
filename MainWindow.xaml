@@ -4,9 +4,61 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectsTracker"
+        xmlns:uc="clr-namespace:ProjectsTracker.ui.UserControls"
+        xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Style="{StaticResource MaterialDesignWindow}"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Projects Tracker"
+        Height="700"
+        Width="1200"
+        WindowStartupLocation="CenterScreen">
+
     <Grid>
 
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+
+        <Rectangle Fill="OrangeRed" />
+
+        <TextBlock Text="Projects Tracker" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" Foreground="White" />
+
+        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" >
+
+            <StackPanel Name="_projects_container_" Height="Auto" Width="Auto" Orientation="Horizontal" />
+
+        </ScrollViewer>
+
+        <ScrollViewer Grid.Row="2" HorizontalScrollBarVisibility="Auto" >
+
+            <StackPanel Name="_solutions_container_" Height="Auto" Width="Auto" Orientation="Horizontal" />
+
+        </ScrollViewer>
+
+        <Rectangle Grid.Row="3" Fill="OrangeRed" />
+
+        <Grid Grid.Row="3" Margin="10">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="40*" />
+                <ColumnDefinition Width="10*" />
+                <ColumnDefinition Width="10*" />
+                <ColumnDefinition Width="40*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" Text="© 2024 Alessio Negri" VerticalAlignment="Center" Foreground="White" FontSize="16" />
+
+            <Button Grid.Column="1" Content="Add Project" Background="#0D6EFD" Foreground="White" BorderBrush="#0D6EFD" Margin="0,0,10,0" Click="AddProjectDialog" />
+
+            <Button Grid.Column="2" Content="Add Solution" Background="#0D6EFD" Foreground="White" BorderBrush="#0D6EFD" Click="AddSolutionDialog" />
+
+            <TextBlock Grid.Column="3" Text="Version 1.0.0" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="White" FontSize="16" />
+
+        </Grid>
+
     </Grid>
+    
 </Window>

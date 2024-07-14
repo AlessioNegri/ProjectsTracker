@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ProjectsTracker.src
+﻿namespace ProjectsTracker.src.Models
 {
     internal class Project
     {
@@ -13,9 +6,6 @@ namespace ProjectsTracker.src
 
         /// <summary> Null project unique identifier </summary>
         public const int NullProjectId = 0;
-
-        /// <summary> Null solution unique identifier </summary>
-        public const int NullSolutionId = 0;
 
         #endregion
 
@@ -25,16 +15,16 @@ namespace ProjectsTracker.src
 
         private string name = "";
 
-        private int solutionId = NullSolutionId;
+        private int? solutionId = null;
 
         /// <summary> Unique identifier of the project </summary>
         public int Id { get => id; set { if (value != NullProjectId) id = value; } }
 
         /// <summary> Name of the project </summary>
-        public string Name { get => name; set { if (String.IsNullOrEmpty(value)) name = value; } }
+        public string Name { get => name; set { if (!string.IsNullOrEmpty(value)) name = value; } }
 
         /// <summary> Unique identifier of the connected solution (it is a sub-project) </summary>
-        public int SolutionId { get => solutionId; set { if (value != NullSolutionId) solutionId = value; } }
+        public int? SolutionId { get => solutionId; set { if (value != null) solutionId = value; } }
 
         #endregion
 
@@ -42,11 +32,11 @@ namespace ProjectsTracker.src
 
         /// <summary> Checks if the project identifier is null </summary>
         /// <returns>Result of check</returns>
-        public bool IsNull() { return Id == NullProjectId; }
+        public bool IsNull() => Id == NullProjectId;
 
         /// <summary> Checks if the project is a sub-project </summary>
         /// <returns>Result of check</returns>
-        public bool IsSubProject() { return SolutionId == NullSolutionId; }
+        public bool IsSubProject() => SolutionId == null;
 
         #endregion
     }

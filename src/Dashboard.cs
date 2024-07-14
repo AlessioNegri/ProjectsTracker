@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ProjectsTracker.src.Database;
+using ProjectsTracker.src.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
@@ -14,13 +16,17 @@ namespace ProjectsTracker.src
         #region MEMBERS
 
         /// <summary> Database Management System </summary>
-        private Database database;
+        //private Database database;
 
         /// <summary> Vector containing the list of projects </summary>
         private List<Project> projects;
 
         /// <summary> Vector containing the list of solutions </summary>
         private List<Solution> solutions;
+
+        public List<Project> Projects { get { return projects; } init { } }
+
+        public List<Solution> Solutions { get { return solutions; } init { } }
 
         #endregion
 
@@ -29,26 +35,14 @@ namespace ProjectsTracker.src
         /// <summary> Constructor </summary>
         public Dashboard()
         {
-            database    = new Database();
+            //database    = new Database();
             projects    = new List<Project>();
             solutions   = new List<Solution>();
 
             Init();
         }
 
-        public bool InsertProject(string name, int solutionId)
-        {
-            Project project = new Project();
-
-            project.Name        = name;
-            project.SolutionId  = solutionId;
-
-            projects.Add(project);
-
-            return true;
-        }
-
-        public bool UpdateProject(int id, string name, int solutionId)
+        public bool UpdateProject(int id, string name, int? solutionId = null)
         {
             Project? project = projects.Find(e => e.Id == id);
 
@@ -111,7 +105,68 @@ namespace ProjectsTracker.src
         /// <summary> Initializes the structures </summary>
         protected void Init()
         {
-            database.Init();
+            //database.Init();
+
+            string projects = string.Empty;
+
+            LoadProjects();
+            LoadSolutions();
+        }
+
+        #endregion
+
+        #region METHODS - PRIVATE
+
+        /// <summary> Loads the list of projects </summary>
+        private void LoadProjects()
+        {
+            var t_projects = new List<ROW_PROJECT>();
+
+            ProjectsManager.Instance.SelectProjects(out t_projects);
+
+            foreach (var row in t_projects)
+            {
+                var project = new Project();
+
+                project.Id          = row.ProjectID;
+                project.Name        = row.Name;
+                project.SolutionId  = row.SolutionID;
+
+                projects.Add(project);
+            }
+        }
+
+        /// <summary> Loads the list of solutions </summary>
+        private void LoadSolutions()
+        {
+            var t_solutions = new List<ROW_SOLUTION>();
+
+            //database.SelectSolutions(out t_solutions);
+
+            foreach (var row in t_solutions)
+            {
+                var solution = new Solution();
+
+                solution.Id     = row.SolutionID;
+                solution.Name   = row.Name;
+
+                var t_projects = new List<ROW_PROJECT>();
+
+                //database.SelectProjects(row.SolutionID, out t_projects);
+
+                foreach (var item in t_projects)
+                {
+                    var project = new Project();
+
+                    project.Id          = item.ProjectID;
+                    project.Name        = item.Name;
+                    project.SolutionId  = item.SolutionID;
+
+                    solution.AddSubProject(project);
+                }
+
+                solutions.Add(solution);
+            }
         }
 
         #endregion
