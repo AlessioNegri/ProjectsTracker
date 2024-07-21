@@ -46,10 +46,28 @@ namespace ProjectsTracker.src.Database
 
             foreach (var obj in jsonArr)
             {
+                // Solution
+
                 ROW_SOLUTION row = new ROW_SOLUTION();
 
                 row.Name        = obj.Name;
                 row.SolutionID  = obj.SolutionID;
+
+                // Number of sub-projects
+
+                query = $"SELECT * FROM projects WHERE SolutionID = {obj.SolutionID}";
+
+                json = string.Empty;
+
+                if (!DBMS.Instance.ExecuteReader(query, out json)) return false;
+
+                List<ROW_PROJECT>? jsonArrProjects = JsonConvert.DeserializeObject<List<ROW_PROJECT>>(json);
+
+                if (jsonArrProjects is null) return false;
+
+                row.SubProjects = jsonArrProjects.Count();
+
+                // Add
 
                 elements.Add(row);
             }
@@ -103,8 +121,9 @@ namespace ProjectsTracker.src.Database
 
         /// <summary> Updates an existing solution </summary>
         /// <param name="solution"> Solution </param>
+        /// <param name="extract"> True for extracting all sub-projects </param>
         /// <returns> Success of the operation </returns>
-        public bool UpdateProject(ROW_SOLUTION solution)
+        public bool UpdateSolution(ROW_SOLUTION solution, bool extract)
         {
             string query = $"UPDATE solutions SET Name = @name WHERE SolutionID = {solution.SolutionID};";
 
@@ -114,13 +133,21 @@ namespace ProjectsTracker.src.Database
 
             if (!DBMS.Instance.ExecuteQuery(query, parameters)) return false;
 
+            if (extract)
+            {
+                query = $"UPDATE projects SET SolutionID = NULL WHERE SolutionID = {solution.SolutionID};";
+
+
+                if (!DBMS.Instance.ExecuteQuery(query, parameters)) return false;
+            }
+
             return true;
         }
 
         /// <summary> Deletes an existing solution </summary>
         /// <param name="solution_id"> Solution ID </param>
         /// <returns> Success of the operation </returns>
-        public bool DeleteProject(int solution_id)
+        public bool DeleteSolution(int solution_id)
         {
             string query = $"DELETE FROM projects WHERE SolutionID = {solution_id};";
 

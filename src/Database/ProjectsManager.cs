@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using ProjectsTracker.src.Models;
 using System.Xml.Linq;
 
 namespace ProjectsTracker.src.Database
@@ -160,6 +161,25 @@ namespace ProjectsTracker.src.Database
 
             return true;
         }
+
+        /// <summary> Moves a project inside a solution </summary>
+        /// <param name="project_id"> Project ID </param>
+        /// <param name="solution_id"> Solution ID </param>
+        /// <returns> Success of the operation </returns>
+        public bool MoveProjectInSolution(int project_id, int solution_id)
+        {
+            string query = $"UPDATE projects SET SolutionID = @solution_id WHERE ProjectID = @project_id;";
+
+            Dictionary<String, Object> parameters = new Dictionary<String, Object>();
+
+            parameters.Add("@solution_id", solution_id);
+            parameters.Add("@project_id", project_id);
+
+            if (!DBMS.Instance.ExecuteQuery(query, parameters)) return false;
+
+            return true;
+        }
+
 
         #endregion
 

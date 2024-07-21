@@ -6,77 +6,81 @@
         xmlns:local="clr-namespace:ProjectsTracker.ui.Dialogs"
         xmlns:userControls="clr-namespace:ProjectsTracker.ui.UserControls"
         mc:Ignorable="d"
-        Title="Project" Height="450" Width="800"
-        WindowStyle="ToolWindow"
-        WindowStartupLocation="CenterOwner">
-    
+        Title="Project"
+        Height="450"
+        Width="800"
+        WindowStartupLocation="CenterOwner"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        Background="Transparent">
+
     <Grid>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="75" />
-            <RowDefinition />
-            <RowDefinition Height="75" />
-        </Grid.RowDefinitions>
+        <Border Background="AliceBlue" CornerRadius="20" BorderBrush="CornflowerBlue" BorderThickness="10" />
 
-        <StackPanel
-            Margin="10"
-            Orientation="Horizontal"
-            HorizontalAlignment="Center">
+        <Grid Margin="20">
 
-            <TextBlock Text="{Binding ProjectHeader, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}" FontSize="28" FontWeight="Bold" />
+            <Grid.RowDefinitions>
+                <RowDefinition Height="75" />
+                <RowDefinition />
+                <RowDefinition Height="75" />
+            </Grid.RowDefinitions>
 
-        </StackPanel>
+            <StackPanel Margin="10" Orientation="Horizontal" HorizontalAlignment="Center">
 
-        <StackPanel Grid.Row="1" Margin="10">
+                <TextBlock Text="{Binding ProjectHeader, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}" FontSize="28" FontWeight="Bold" />
 
-            <TextBlock Text="Project Name" FontSize="20" Margin="0,0,0,10" />
+            </StackPanel>
 
-            <userControls:CustomTextBox x:Name="ctbProjectName" Placeholder="Insert Project Name" Margin="0,0,0,10" />
-            
-            <Viewbox Height="30" HorizontalAlignment="Left" Margin="0,0,0,10">
-                <RadioButton GroupName="gnSolution" Content="No Solution" IsChecked="{Binding ProjectChoiceNoSolution}" />
-            </Viewbox>
+            <StackPanel Grid.Row="1" Margin="10">
 
-            <Grid Margin="0,0,0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
+                <TextBlock Text="Project Name" FontSize="20" Margin="0,0,0,10" />
 
-                <Viewbox Height="30" HorizontalAlignment="Left">
-                    <RadioButton GroupName="gnSolution" Content="Create New Solution" IsChecked="{Binding ProjectChoiceNewSolution}" />
+                <userControls:CustomTextBox x:Name="ctbProjectName" Placeholder="Insert Project Name" Margin="0,0,0,10" />
+
+                <Viewbox Height="30" HorizontalAlignment="Left" Margin="0,0,0,10">
+                    <RadioButton GroupName="gnSolution" Content="No Solution" IsChecked="{Binding ProjectChoiceNoSolution}" />
                 </Viewbox>
-                <userControls:CustomTextBox x:Name="ctbSolutionName" Grid.Column="1" Placeholder="Insert Solution Name" />
-            </Grid>
 
-            <Grid Margin="0,0,0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
+                <Grid Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
 
-                <Viewbox Height="30" HorizontalAlignment="Left">
-                    <RadioButton GroupName="gnSolution" Content="Add To Existing Solution" IsChecked="{Binding ProjectChoiceAddToSolution}" />
-                </Viewbox>
-                <ComboBox Grid.Column="1" SelectedValue="{Binding ProjectSolution}" />
-            </Grid>
+                    <Viewbox Height="30" HorizontalAlignment="Left">
+                        <RadioButton GroupName="gnSolution" Content="Create New Solution" IsChecked="{Binding ProjectChoiceNewSolution}" />
+                    </Viewbox>
+                    <userControls:CustomTextBox x:Name="ctbSolutionName" Grid.Column="1" Placeholder="Insert Solution Name" />
+                </Grid>
+
+                <Grid Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <Viewbox Height="30" HorizontalAlignment="Left">
+                        <RadioButton GroupName="gnSolution" Content="Add To Existing Solution" IsChecked="{Binding ProjectChoiceAddToSolution}" />
+                    </Viewbox>
+                    <ComboBox Grid.Column="1" ItemsSource="{Binding SolutionItems}" SelectedItem="{Binding ProjectSolution}" DisplayMemberPath="Value" />
+                </Grid>
 
 
-        </StackPanel>
+            </StackPanel>
 
-        <DockPanel
-            Grid.Row="2"
-            Margin="10"
-            LastChildFill="False">
+            <DockPanel Grid.Row="2" Margin="10" LastChildFill="False">
 
-            <TextBlock Foreground="Red" FontSize="16" FontWeight="Bold" VerticalAlignment="Center" DockPanel.Dock="Left" Text="{Binding Error, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBlock Foreground="Red" FontSize="16" FontWeight="Bold" VerticalAlignment="Center" DockPanel.Dock="Left" Text="{Binding Error, UpdateSourceTrigger=PropertyChanged}" />
 
-            <Button Content="Confirm" Margin="0,0,0,0" Click="Confirm" DockPanel.Dock="Right" />
+                <Button Content="Confirm" Margin="0,0,0,0" Click="Confirm" DockPanel.Dock="Right" Background="#0D6EFD" Foreground="White" BorderBrush="#0D6EFD" />
 
-            <Button Content="Cancel" Margin="0,0,25,0" Click="Cancel" DockPanel.Dock="Right" />
+                <Button Content="Cancel" Margin="0,0,25,0" Click="Cancel" DockPanel.Dock="Right" Background="#6C757D" Foreground="White" BorderBrush="#6C757D" />
 
-        </DockPanel>
-        
+            </DockPanel>
+
+        </Grid>
+
     </Grid>
     
 </Window>

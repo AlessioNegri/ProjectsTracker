@@ -6,56 +6,99 @@
         xmlns:local="clr-namespace:ProjectsTracker"
         xmlns:uc="clr-namespace:ProjectsTracker.ui.UserControls"
         xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
         Style="{StaticResource MaterialDesignWindow}"
         mc:Ignorable="d"
         Title="Projects Tracker"
         Height="700"
         Width="1200"
-        WindowStartupLocation="CenterScreen">
+        MinHeight="700"
+        MinWidth="1200"
+        x:Name="AppWindow"
+        WindowStartupLocation="CenterScreen"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        Background="Transparent">
 
     <Grid>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="50"/>
-        </Grid.RowDefinitions>
+        <Border Background="SeaShell" CornerRadius="20" BorderBrush="CornflowerBlue" BorderThickness="10" />
 
-        <Rectangle Fill="OrangeRed" />
+        <Grid>
 
-        <TextBlock Text="Projects Tracker" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" Foreground="White" />
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="75"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
 
-        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" >
+            <Border Background="CornflowerBlue" CornerRadius="20,20,0,0" MouseLeftButtonDown="Drag" />
 
-            <StackPanel Name="_projects_container_" Height="Auto" Width="Auto" Orientation="Horizontal" />
+            <TextBlock Text="PROJECTS TRACKER" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="28" FontWeight="Bold" FontFamily="Arial Black" Foreground="White" MouseLeftButtonDown="Drag" />
 
-        </ScrollViewer>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
 
-        <ScrollViewer Grid.Row="2" HorizontalScrollBarVisibility="Auto" >
+                <Border Width="30" Height="30" Background="#CCFFC107" CornerRadius="20" Margin="0,0,10,0" Cursor="Hand" MouseLeftButtonDown="Minimize">
+                    <Image Source="{svgc:SvgImage /icons/minimize.svg}" Width="20" />
+                </Border>
 
-            <StackPanel Name="_solutions_container_" Height="Auto" Width="Auto" Orientation="Horizontal" />
+                <Border Width="30" Height="30" Background="#CC198754" CornerRadius="20" Margin="0,0,10,0" Cursor="Hand" MouseLeftButtonDown="Maximize">
+                    <svgc:SvgViewbox Source="{Binding MaximizeIcon, UpdateSourceTrigger=PropertyChanged}" Width="20" />
+                </Border>
 
-        </ScrollViewer>
+                <Border Width="30" Height="30" Background="#CCDC3545" CornerRadius="20" Margin="0,0,10,0" Cursor="Hand" MouseLeftButtonDown="Close">
+                    <Image Source="{svgc:SvgImage /icons/exit.svg}" Width="20" />
+                </Border>
 
-        <Rectangle Grid.Row="3" Fill="OrangeRed" />
+            </StackPanel>
 
-        <Grid Grid.Row="3" Margin="10">
+            <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="40*" />
-                <ColumnDefinition Width="10*" />
-                <ColumnDefinition Width="10*" />
-                <ColumnDefinition Width="40*" />
-            </Grid.ColumnDefinitions>
+                <StackPanel Name="_projects_container_" Height="Auto" Width="Auto" Orientation="Horizontal" Margin="20" />
 
-            <TextBlock Grid.Column="0" Text="© 2024 Alessio Negri" VerticalAlignment="Center" Foreground="White" FontSize="16" />
+            </ScrollViewer>
 
-            <Button Grid.Column="1" Content="Add Project" Background="#0D6EFD" Foreground="White" BorderBrush="#0D6EFD" Margin="0,0,10,0" Click="AddProjectDialog" />
+            <ScrollViewer Grid.Row="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="20" >
 
-            <Button Grid.Column="2" Content="Add Solution" Background="#0D6EFD" Foreground="White" BorderBrush="#0D6EFD" Click="AddSolutionDialog" />
+                <StackPanel Name="_solutions_container_" Height="Auto" Width="Auto" Orientation="Horizontal" />
 
-            <TextBlock Grid.Column="3" Text="Version 1.0.0" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="White" FontSize="16" />
+            </ScrollViewer>
+
+            <Grid Grid.Row="3" Margin="10">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="150" />
+                    <ColumnDefinition Width="150" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" />
+
+                <Button Grid.Column="1" Content="Add Project" Background="#0D6EFD" Foreground="White" BorderBrush="#0D6EFD" Width="125" Click="AddProjectDialog" />
+
+                <Button Grid.Column="2" Content="Add Solution" Background="#0D6EFD" Foreground="White" BorderBrush="#0D6EFD" Width="125" Click="AddSolutionDialog" />
+
+                <TextBlock Grid.Column="3" />
+
+            </Grid>
+
+            <Border Grid.Row="4" Background="CornflowerBlue" CornerRadius="0,0,20,20" />
+
+            <Grid Grid.Row="4" Margin="10">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" Text="© 2024 Alessio Negri" VerticalAlignment="Center" Foreground="White" FontSize="16" />
+
+                <TextBlock Grid.Column="3" Text="Version 1.0.0" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="White" FontSize="16" />
+
+            </Grid>
 
         </Grid>
 

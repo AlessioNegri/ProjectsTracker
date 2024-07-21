@@ -1,11 +1,15 @@
 ﻿using ProjectsTracker.src;
 using ProjectsTracker.src.Database;
 using ProjectsTracker.src.Models;
+using ProjectsTracker.src.MVVM;
 using ProjectsTracker.ui.Dialogs;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 
 namespace ProjectsTracker.ui.UserControls
 {
@@ -22,6 +26,12 @@ namespace ProjectsTracker.ui.UserControls
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        #endregion
+
+        #region EVENTS
+
+        public event EventHandler Update;
 
         #endregion
 
@@ -68,21 +78,43 @@ namespace ProjectsTracker.ui.UserControls
 
             DialogProject dlg = new DialogProject(parent_window);
 
+            dlg.Edit            = true;
             dlg.ProjectHeader   = $"Edit {project.Name}";
+            dlg.ProjectId       = project.ProjectID;
             dlg.ProjectName     = project.Name;
-
-            Opacity = 0.5;
 
             dlg.ShowDialog();
 
-            Opacity = 1.0;
+            if (dlg.Success && Update != null) Update(this, new EventArgs());
         }
 
         private void DeleteProject(object sender, System.Windows.RoutedEventArgs e)
         {
+            ROW_PROJECT project = new ROW_PROJECT();
 
+            bool ok = ProjectsManager.Instance.SelectProjectById(ProjectId, out project);
+
+            if (!ok) return;
+
+            DialogDelete dlg = new DialogDelete(parent_window);
+
+            dlg.DeleteHeader    = "Delete Project";
+            dlg.DeleteContent   = $"Do you want to delete {project.Name}?";
+            dlg.ConfirmCommand  = new RelayCommand(execute => { ProjectsManager.Instance.DeleteProject(ProjectId); });
+
+            dlg.ShowDialog();
+
+            if (dlg.Success && Update != null) Update(this, new EventArgs());
         }
 
+        private void Card_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                DragDrop.DoDragDrop(cardProject, new DataObject(DataFormats.Serializable, ProjectId), DragDropEffects.Move);
+            }
+        }
+        
         #endregion
     }
 }

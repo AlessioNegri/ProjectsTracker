@@ -25,8 +25,9 @@ namespace ProjectsTracker.src.ViewModels
             {
                 var solution = new Solution();
 
-                solution.Id     = row.SolutionID;
-                solution.Name   = row.Name;
+                solution.Id             = row.SolutionID;
+                solution.Name           = row.Name;
+                solution.SubProjects    = row.SubProjects;
 
                 Solutions.Add(solution);
             }

@@ -28,5 +28,9 @@ namespace ProjectsTracker.src
         /// <summary> Column 2 </summary>
         [JsonProperty(nameof(Name))]
         public string Name { get; set; }
+
+        /// <summary> Number of sub-projects </summary>
+        [JsonProperty(nameof(SubProjects))]
+        public int SubProjects { get; set; }
     }
 }

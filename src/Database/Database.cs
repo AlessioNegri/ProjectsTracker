@@ -138,6 +138,24 @@ namespace ProjectsTracker.src.Database
             return true;
         }
 
+        /// <summary> Retrieves the last inserted table id </summary>
+        /// <param name="id"> ID </param>
+        /// <returns> Success of the operations </returns>
+        public bool LastInsertRowId(out long id)
+        {
+            string query = @"select last_insert_rowid()";
+
+            connection!.Open();
+
+            command = new SqliteCommand(query, connection);
+
+            id = (long?)command.ExecuteScalar() ?? 0;
+
+            connection!.Close();
+
+            return true;
+        }
+
         #endregion
 
         #region METHODS - PRIVATE

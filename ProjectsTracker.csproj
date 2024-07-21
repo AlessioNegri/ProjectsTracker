@@ -9,9 +9,27 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="icons\exit.svg" />
+    <None Remove="icons\maximize.svg" />
+    <None Remove="icons\minimize.svg" />
+    <None Remove="icons\power_settings_new.png" />
+    <None Remove="icons\power_settings_new.svg" />
+    <None Remove="icons\restore.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="icons\exit.svg" />
+    <Resource Include="icons\maximize.svg" />
+    <Resource Include="icons\minimize.svg" />
+    <Resource Include="icons\restore.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MaterialDesignThemes" Version="5.1.0" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="8.0.7" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="SharpVectors.Wpf" Version="1.8.4" />
   </ItemGroup>
 
 </Project>

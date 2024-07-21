@@ -18,14 +18,16 @@
 
         private string name = "";
 
-        /// <summary> List containing the list of sub-projects associated with it </summary>
-        private List<Project> sub_projects = new List<Project>();
+        private int sub_projects = 0;
 
         /// <summary> Unique identifier of the solution </summary>
         public int Id { get => id; set { if (value != NullSolutionId) id = value; } }
 
         /// <summary> Name of the solution </summary>
         public string Name { get => name; set { if (!string.IsNullOrEmpty(value)) name = value; } }
+
+        /// <summary> Number of sub-projects associated with it </summary>
+        public int SubProjects { get => sub_projects; set => sub_projects = value; }
 
         #endregion
 
@@ -34,10 +36,6 @@
         /// <summary> Checks if the solution identifier is null </summary>
         /// <returns>Result of check</returns>
         public bool IsNull() => Id == NullSolutionId;
-
-        /// <summary> Add a project to the list of sub projects </summary>
-        /// <param name="project"></param>
-        public void AddSubProject(Project project) => sub_projects.Add(project);
 
         #endregion
     }
