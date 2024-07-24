@@ -1,24 +1,35 @@
 ﻿<Application x:Class="ProjectsTracker.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:ProjectsTracker"
-             StartupUri="MainWindow.xaml">
-    
+             xmlns:vm="clr-namespace:ProjectsTracker.src.ViewModels"
+             xmlns:p="clr-namespace:ProjectsTracker.ui.Pages">
+            <!--StartupUri="MainWindow.xaml"-->
+
     <Application.Resources>
 
         <ResourceDictionary>
+            
+            <!-- Resource Dictionaries -->
 
             <ResourceDictionary.MergedDictionaries>
 
-                <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="DeepOrange" SecondaryColor="Orange" />
+                <md:BundledTheme BaseTheme="Light" PrimaryColor="Blue" SecondaryColor="LightBlue" />
 
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign2.Defaults.xaml" />
-                <!--ResourceDictionary Source="rc\ResourceDictionaries\Button.xaml" /-->
-                <!--ResourceDictionary Source="rc\ResourceDictionaries\TextBox.xaml" /-->
-                <ResourceDictionary Source="rc\ResourceDictionaries\ScrollViewer.xaml" />
+                
+                <ResourceDictionary Source="rc/ResourceDictionaries/ScrollViewer.xaml" />
 
             </ResourceDictionary.MergedDictionaries>
+            
+            <!-- Data Template -->
+
+            <DataTemplate DataType="{x:Type TypeName=vm:PageDashboardViewModel}">
+                
+                <p:PageDashboard/>
+                
+            </DataTemplate>
 
         </ResourceDictionary>
 

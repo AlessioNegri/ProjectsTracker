@@ -1,13 +1,9 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ProjectsTracker.src.Database
 {
-    internal sealed class SolutionsManager
+    /// <summary> Class to manage "solutions" SQL requests </summary>
+    class SolutionsManager
     {
         #region MEMBERS
 

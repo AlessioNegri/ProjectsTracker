@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:ProjectsTracker.ui.Dialogs"
         mc:Ignorable="d"
         Title="Delete"
-        Height="300"
+        Height="250"
         Width="800"
         WindowStartupLocation="CenterOwner"
         AllowsTransparency="True"
@@ -15,7 +15,7 @@
 
     <Grid>
 
-        <Border Background="AliceBlue" CornerRadius="20" BorderBrush="CornflowerBlue" BorderThickness="10" />
+        <Border Background="WhiteSmoke" CornerRadius="20" BorderBrush="#DC3545" BorderThickness="5" />
 
         <Grid Margin="20">
 
@@ -24,26 +24,26 @@
                 <RowDefinition />
                 <RowDefinition Height="75" />
             </Grid.RowDefinitions>
+            
+            <!-- Row 0 -->
 
-            <StackPanel
-            Margin="10"
-            Orientation="Horizontal"
-            HorizontalAlignment="Center">
+            <StackPanel Margin="10" Orientation="Horizontal" HorizontalAlignment="Center">
 
                 <TextBlock Text="{Binding DeleteHeader, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, NotifyOnSourceUpdated=True, NotifyOnTargetUpdated=True}" FontSize="28" FontWeight="Bold" />
 
             </StackPanel>
 
+            <!-- Row 1 -->
+
             <StackPanel Grid.Row="1" Margin="10">
 
-                <TextBlock Text="{Binding DeleteContent, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" FontSize="16" Margin="0,0,0,10" />
+                <TextBlock Text="{Binding DeleteContent, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" FontSize="20" Margin="0,0,0,10" TextAlignment="Center" />
 
             </StackPanel>
 
-            <DockPanel
-            Grid.Row="2"
-            Margin="10"
-            LastChildFill="False">
+            <!-- Row 2 -->
+            
+            <DockPanel Grid.Row="2" Margin="10" LastChildFill="False">
 
                 <Button Content="Confirm" Margin="0,0,0,0" Click="Confirm" DockPanel.Dock="Right" Background="#0D6EFD" Foreground="White" BorderBrush="#0D6EFD" />
 

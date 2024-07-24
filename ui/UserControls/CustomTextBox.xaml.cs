@@ -14,26 +14,36 @@ namespace ProjectsTracker.ui.UserControls
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
+        /// <summary> Invokes the propery change event </summary>
+        /// <param name="propertyName"> Name of the property </param>
+        private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         #endregion
 
         #region MEMBERS
 
-        private string text = "";
+        private string text = string.Empty;
 
-        private string placeholder = "";
+        private string placeholder = string.Empty;
 
         #endregion
 
         #region BINDINGS
 
+        /// <summary> Text </summary>
         public string Text { get => text; set { text = value; OnPropertyChanged(); } }
 
+        /// <summary> Placeholder text </summary>
         public string Placeholder { get => placeholder; set { placeholder = value; OnPropertyChanged(); } }
 
         #endregion
 
         #region METHODS - PUBLIC
 
+        /// <summary> Constructor </summary>
         public CustomTextBox()
         {
             DataContext = this;
@@ -45,18 +55,10 @@ namespace ProjectsTracker.ui.UserControls
 
         #region METHODS - PRIVATE
 
-        private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private void ctbClear_Click(object sender, RoutedEventArgs e)
-        {
-            ctbInput.Clear();
-            ctbInput.Focus();
-        }
-
-        private void ctbInput_TextChanged(object sender, TextChangedEventArgs e)
+        /// <summary> Text changed slot </summary>
+        /// <param name="sender"> Sender </param>
+        /// <param name="e"> Event arguments </param>
+        private void TextChanged(object sender, TextChangedEventArgs e)
         {
             ctbPlaceholder.Visibility = string.IsNullOrEmpty(ctbInput.Text) ? Visibility.Visible : Visibility.Hidden;
         }

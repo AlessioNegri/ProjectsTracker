@@ -21,18 +21,22 @@
         Background="Transparent">
 
     <Grid>
+        
+        <!-- Border -->
 
         <Border Background="SeaShell" CornerRadius="20" BorderBrush="CornflowerBlue" BorderThickness="10" />
 
+        <!-- Body -->
+        
         <Grid>
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="75"/>
                 <RowDefinition Height="50"/>
             </Grid.RowDefinitions>
+            
+            <!-- Header -->
 
             <Border Background="CornflowerBlue" CornerRadius="20,20,0,0" MouseLeftButtonDown="Drag" />
 
@@ -54,40 +58,15 @@
 
             </StackPanel>
 
-            <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
+            <!-- Body -->
 
-                <StackPanel Name="_projects_container_" Height="Auto" Width="Auto" Orientation="Horizontal" Margin="20" />
+            <ContentControl Grid.Row="1" Content="{Binding Navigation.CurrentView}" />
 
-            </ScrollViewer>
+            <!-- Footer -->
 
-            <ScrollViewer Grid.Row="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="20" >
+            <Border Grid.Row="2" Background="CornflowerBlue" CornerRadius="0,0,20,20" />
 
-                <StackPanel Name="_solutions_container_" Height="Auto" Width="Auto" Orientation="Horizontal" />
-
-            </ScrollViewer>
-
-            <Grid Grid.Row="3" Margin="10">
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="150" />
-                    <ColumnDefinition Width="150" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <TextBlock Grid.Column="0" />
-
-                <Button Grid.Column="1" Content="Add Project" Background="#0D6EFD" Foreground="White" BorderBrush="#0D6EFD" Width="125" Click="AddProjectDialog" />
-
-                <Button Grid.Column="2" Content="Add Solution" Background="#0D6EFD" Foreground="White" BorderBrush="#0D6EFD" Width="125" Click="AddSolutionDialog" />
-
-                <TextBlock Grid.Column="3" />
-
-            </Grid>
-
-            <Border Grid.Row="4" Background="CornflowerBlue" CornerRadius="0,0,20,20" />
-
-            <Grid Grid.Row="4" Margin="10">
+            <Grid Grid.Row="2" Margin="10">
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />

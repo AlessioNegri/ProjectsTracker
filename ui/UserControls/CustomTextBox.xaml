@@ -5,47 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ProjectsTracker.ui.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="50" d:DesignWidth="250">
+             d:DesignHeight="50"
+             d:DesignWidth="250">
 
     <Grid Height="40">
 
-        <Rectangle
-            Fill="White"
-            RadiusX="5"
-            RadiusY="5"
-            Panel.ZIndex="-2"
-            />
+        <Rectangle Fill="White" RadiusX="5" RadiusY="5" Panel.ZIndex="-2" />
 
-        <TextBox
-            x:Name="ctbInput"
-            VerticalContentAlignment="Center"
-            FontSize="16"
-            FontWeight="Light"
-            Text="{Binding Text, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-            TextChanged="ctbInput_TextChanged"
-            />
+        <TextBox x:Name="ctbInput" VerticalContentAlignment="Center" FontSize="16" FontWeight="Light" TextChanged="TextChanged"
+                 Text="{Binding Text, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
-        <TextBlock
-            x:Name="ctbPlaceholder"
-            Text="{Binding Placeholder, UpdateSourceTrigger=PropertyChanged}"
-            VerticalAlignment="Center"
-            Margin="5,0,30,0"
-            FontSize="16"
-            FontWeight="Light"
-            Foreground="DarkGray"
-            Background="Transparent"
-            Panel.ZIndex="-1"
-            />
-
-        <!--Button
-            x:Name="ctbClear"
-            Content="X"
-            Margin="5"
-            Width="20"
-            HorizontalAlignment="Right"
-            BorderThickness="0"
-            Click="ctbClear_Click"
-            /-->
+        <TextBlock x:Name="ctbPlaceholder" VerticalAlignment="Center" Margin="5,0,30,0" FontSize="16" FontWeight="Light" Foreground="DarkGray" Background="Transparent" Panel.ZIndex="-1"
+                   Text="{Binding Placeholder, UpdateSourceTrigger=PropertyChanged}" />
 
     </Grid>
     

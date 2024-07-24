@@ -1,10 +1,12 @@
 ﻿using Microsoft.Data.Sqlite;
 using Newtonsoft.Json;
+using ProjectsTracker.src.Utility;
 using System.Data;
 
 namespace ProjectsTracker.src.Database
 {
-    internal sealed class DBMS
+    /// <summary> Class to manage the Database Management System </summary>
+    class DBMS
     {
         #region MEMBERS
 
@@ -42,49 +44,60 @@ namespace ProjectsTracker.src.Database
         {
             // Open connection
 
-            string assembly_path = System.Reflection.Assembly.GetExecutingAssembly().Location;
-
-            string database_name = assembly_path.Split("\\")[^1].Split(".")[0];
-
             string database_path = System.Reflection.Assembly.GetExecutingAssembly().Location.Replace("dll", "db");
 
             connection_string = $"Data Source={database_path};Mode=ReadWriteCreate";
 
             connection = new SqliteConnection(connection_string);
 
-            connection.Open();
+            try
+            {
+                connection.Open();
 
-            // Create database
+                // Create database
 
-            string sql_solutions =
-                $"CREATE TABLE IF NOT EXISTS solutions" +
-                $"(" +
-                $"`SolutionID` INTEGER NOT NULL, " +
-                $"`Name` TEXT NOT NULL, " +
-                $"PRIMARY KEY (`SolutionID` AUTOINCREMENT)" +
-                $");";
+                string sql_solutions =
+                    $"CREATE TABLE IF NOT EXISTS solutions" +
+                    $"(" +
+                    $"`SolutionID` INTEGER NOT NULL, " +
+                    $"`Name` TEXT NOT NULL, " +
+                    $"PRIMARY KEY (`SolutionID` AUTOINCREMENT)" +
+                    $");";
 
-            string sql_projects =
-                $"CREATE TABLE IF NOT EXISTS projects" +
-                $"(" +
-                $"`ProjectID` INTEGER NOT NULL, " +
-                $"`Name` TEXT NOT NULL, " +
-                $"`SolutionID` INTEGER NULL, " +
-                $"FOREIGN KEY (`SolutionID`) REFERENCES `solutions`(`SolutionID`) ON UPDATE RESTRICT ON DELETE RESTRICT, " +
-                $"PRIMARY KEY (`ProjectID` AUTOINCREMENT)" +
-                $");";
+                string sql_projects =
+                    $"CREATE TABLE IF NOT EXISTS projects" +
+                    $"(" +
+                    $"`ProjectID` INTEGER NOT NULL, " +
+                    $"`Name` TEXT NOT NULL, " +
+                    $"`SolutionID` INTEGER NULL, " +
+                    $"FOREIGN KEY (`SolutionID`) REFERENCES `solutions`(`SolutionID`) ON UPDATE RESTRICT ON DELETE RESTRICT, " +
+                    $"PRIMARY KEY (`ProjectID` AUTOINCREMENT)" +
+                    $");";
 
-            command = new SqliteCommand(sql_solutions, connection);
+                command = new SqliteCommand(sql_solutions, connection);
 
-            command.ExecuteNonQuery();
+                command.ExecuteNonQuery();
 
-            command = new SqliteCommand(sql_projects, connection);
+                command = new SqliteCommand(sql_projects, connection);
 
-            command.ExecuteNonQuery();
+                command.ExecuteNonQuery();
 
-            // Close connection
+                // Close connection
 
-            connection.Close();
+                connection.Close();
+
+                // Logger
+
+                Logger.Instance.Info("Database initialized");
+            }
+            catch (SqliteException ex)
+            {
+                if (connection.State == ConnectionState.Open) connection.Close();
+
+                Logger.Instance.Error($"Database Init >>> {ex.Message}");
+
+                return false;
+            }
 
             return true;
         }
@@ -95,21 +108,34 @@ namespace ProjectsTracker.src.Database
         /// <returns> Success of the operations </returns>
         public bool ExecuteReader(string query, out string json)
         {
-            connection!.Open();
+            try
+            {
+                connection!.Open();
 
-            command = new SqliteCommand(query, connection);
+                command = new SqliteCommand(query, connection);
 
-            reader = command.ExecuteReader();
+                reader = command.ExecuteReader();
 
-            var dataTable = new DataTable();
+                var dataTable = new DataTable();
 
-            dataTable.Load(reader);
+                dataTable.Load(reader);
 
-            json = string.Empty;
+                json = string.Empty;
 
-            json = JsonConvert.SerializeObject(dataTable);
+                json = JsonConvert.SerializeObject(dataTable);
 
-            connection!.Close();
+                connection!.Close();
+            }
+            catch (SqliteException ex)
+            {
+                if (connection!.State == ConnectionState.Open) connection.Close();
+
+                json = string.Empty;
+
+                Logger.Instance.Error($"Database ExecuteReader >>> {ex.Message}");
+
+                return false;
+            }
 
             return true;
         }
@@ -119,21 +145,32 @@ namespace ProjectsTracker.src.Database
         /// <returns> Success of the operations </returns>
         public bool ExecuteQuery(string query, Dictionary<String, Object>? parameters = null)
         {
-            connection!.Open();
-
-            command = new SqliteCommand(query, connection);
-
-            if (parameters is not null)
+            try
             {
-                foreach (var item in parameters)
+                connection!.Open();
+
+                command = new SqliteCommand(query, connection);
+
+                if (parameters is not null)
                 {
-                    command.Parameters.AddWithValue(item.Key, item.Value);
+                    foreach (var item in parameters)
+                    {
+                        command.Parameters.AddWithValue(item.Key, item.Value);
+                    }
                 }
+
+                int result = command.ExecuteNonQuery();
+
+                connection!.Close();
             }
+            catch (SqliteException ex)
+            {
+                if (connection!.State == ConnectionState.Open) connection.Close();
 
-            int result = command.ExecuteNonQuery();
+                Logger.Instance.Error($"Database ExecuteQuery >>> {ex.Message}");
 
-            connection!.Close();
+                return false;
+            }
 
             return true;
         }
@@ -143,15 +180,28 @@ namespace ProjectsTracker.src.Database
         /// <returns> Success of the operations </returns>
         public bool LastInsertRowId(out long id)
         {
-            string query = @"select last_insert_rowid()";
+            try
+            {
+                string query = @"select last_insert_rowid()";
 
-            connection!.Open();
+                connection!.Open();
 
-            command = new SqliteCommand(query, connection);
+                command = new SqliteCommand(query, connection);
 
-            id = (long?)command.ExecuteScalar() ?? 0;
+                id = (long?)command.ExecuteScalar() ?? 0;
 
-            connection!.Close();
+                connection!.Close();
+            }
+            catch (SqliteException ex)
+            {
+                if (connection!.State == ConnectionState.Open) connection.Close();
+
+                id = 0;
+
+                Logger.Instance.Error($"Database ExecuteQuery >>> {ex.Message}");
+
+                return false;
+            }
 
             return true;
         }

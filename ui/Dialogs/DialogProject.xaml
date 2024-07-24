@@ -7,7 +7,7 @@
         xmlns:userControls="clr-namespace:ProjectsTracker.ui.UserControls"
         mc:Ignorable="d"
         Title="Project"
-        Height="450"
+        Height="475"
         Width="800"
         WindowStartupLocation="CenterOwner"
         AllowsTransparency="True"
@@ -16,7 +16,7 @@
 
     <Grid>
 
-        <Border Background="AliceBlue" CornerRadius="20" BorderBrush="CornflowerBlue" BorderThickness="10" />
+        <Border Background="WhiteSmoke" CornerRadius="20" BorderBrush="#198754" BorderThickness="5" />
 
         <Grid Margin="20">
 
@@ -25,6 +25,8 @@
                 <RowDefinition />
                 <RowDefinition Height="75" />
             </Grid.RowDefinitions>
+            
+            <!-- Row 0 -->
 
             <StackPanel Margin="10" Orientation="Horizontal" HorizontalAlignment="Center">
 
@@ -32,42 +34,57 @@
 
             </StackPanel>
 
+            <!-- Row 1 -->
+
             <StackPanel Grid.Row="1" Margin="10">
 
-                <TextBlock Text="Project Name" FontSize="20" Margin="0,0,0,10" />
+                <TextBlock Text="Project Name" FontSize="20" Margin="0,0,0,20" />
 
-                <userControls:CustomTextBox x:Name="ctbProjectName" Placeholder="Insert Project Name" Margin="0,0,0,10" />
+                <userControls:CustomTextBox x:Name="ctbProjectName" Placeholder="Insert Project Name" Margin="0,0,0,20" />
 
-                <Viewbox Height="30" HorizontalAlignment="Left" Margin="0,0,0,10">
+                <Viewbox Height="26" HorizontalAlignment="Left" Margin="0,0,0,20">
+                    
                     <RadioButton GroupName="gnSolution" Content="No Solution" IsChecked="{Binding ProjectChoiceNoSolution}" />
+                    
                 </Viewbox>
 
-                <Grid Margin="0,0,0,10">
+                <Grid Margin="0,0,0,20">
+                    
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
 
-                    <Viewbox Height="30" HorizontalAlignment="Left">
+                    <Viewbox Height="26" HorizontalAlignment="Left">
+                        
                         <RadioButton GroupName="gnSolution" Content="Create New Solution" IsChecked="{Binding ProjectChoiceNewSolution}" />
+                        
                     </Viewbox>
+                    
                     <userControls:CustomTextBox x:Name="ctbSolutionName" Grid.Column="1" Placeholder="Insert Solution Name" />
+                    
                 </Grid>
 
-                <Grid Margin="0,0,0,10">
+                <Grid Margin="0,0,0,20">
+                    
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
 
-                    <Viewbox Height="30" HorizontalAlignment="Left">
+                    <Viewbox Height="26" HorizontalAlignment="Left">
+                        
                         <RadioButton GroupName="gnSolution" Content="Add To Existing Solution" IsChecked="{Binding ProjectChoiceAddToSolution}" />
+                        
                     </Viewbox>
-                    <ComboBox Grid.Column="1" ItemsSource="{Binding SolutionItems}" SelectedItem="{Binding ProjectSolution}" DisplayMemberPath="Value" />
+                    
+                    <ComboBox Grid.Column="1" ItemsSource="{Binding SolutionItems}" SelectedItem="{Binding ProjectSolution}" DisplayMemberPath="Value" FontSize="16" />
+                    
                 </Grid>
-
 
             </StackPanel>
+
+            <!-- Row 2 -->
 
             <DockPanel Grid.Row="2" Margin="10" LastChildFill="False">
 

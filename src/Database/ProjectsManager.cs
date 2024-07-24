@@ -1,10 +1,9 @@
 ﻿using Newtonsoft.Json;
-using ProjectsTracker.src.Models;
-using System.Xml.Linq;
 
 namespace ProjectsTracker.src.Database
 {
-    internal sealed class ProjectsManager
+    /// <summary> Class to manage "projects" SQL requests </summary>
+    class ProjectsManager
     {
         #region MEMBERS
 
@@ -179,7 +178,6 @@ namespace ProjectsTracker.src.Database
 
             return true;
         }
-
 
         #endregion
 

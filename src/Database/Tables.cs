@@ -3,7 +3,7 @@
 namespace ProjectsTracker.src
 {
     /// <summary> Database "projects" table structure </summary>
-    internal struct ROW_PROJECT
+    struct ROW_PROJECT
     {
         /// <summary> Column 1 </summary>
         [JsonProperty(nameof(ProjectID))]
@@ -19,7 +19,7 @@ namespace ProjectsTracker.src
     }
 
     /// <summary> Database "solutions" table structure </summary>
-    internal struct ROW_SOLUTION
+    struct ROW_SOLUTION
     {
         /// <summary> Column 1 </summary>
         [JsonProperty(nameof(SolutionID))]

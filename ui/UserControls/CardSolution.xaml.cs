@@ -1,6 +1,5 @@
 ﻿using ProjectsTracker.src.Database;
 using ProjectsTracker.src;
-using ProjectsTracker.src.Models;
 using ProjectsTracker.ui.Dialogs;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
@@ -19,6 +18,8 @@ namespace ProjectsTracker.ui.UserControls
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
+        /// <summary> Invokes the propery change event </summary>
+        /// <param name="propertyName"> Name of the property </param>
         protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -28,38 +29,46 @@ namespace ProjectsTracker.ui.UserControls
 
         #region EVENTS
 
-        public event EventHandler Update;
+        /// <summary> Event triggered to notify the UI update </summary>
+        public event EventHandler? Update = null;
+
+        #endregion
+
+        #region CONST
+
+        /// <summary> Null solution unique identifier </summary>
+        public const int NullSolutionId = 0;
 
         #endregion
 
         #region MEMBERS
 
-        private Window? parent_window = null;
+        private int solution_id = NullSolutionId;
 
-        private int solution_id = Solution.NullSolutionId;
+        private string solution_name = string.Empty;
 
-        private string solution_name = String.Empty;
-
-        private string sub_projects = String.Empty;
+        private string sub_projects = string.Empty;
 
         #endregion
 
         #region BINDINGS
 
+        /// <summary> Solution Id </summary>
         public int SolutionId { get => solution_id; set { solution_id = value; OnPropertyChanged(); } }
 
+        /// <summary> Solution Name </summary>
         public string SolutionName { get => solution_name; set { solution_name = value; OnPropertyChanged(); } }
 
+        /// <summary> Sub Projects text </summary>
         public string SubProjects { get => sub_projects; set { sub_projects = value; OnPropertyChanged(); } }
 
         #endregion
 
         #region METHODS - PUBLIC
 
-        public CardSolution(Window? parent = null)
+        /// <summary> Constructor </summary>
+        public CardSolution()
         {
-            parent_window = parent;
-
             DataContext = this;
 
             InitializeComponent();
@@ -69,6 +78,9 @@ namespace ProjectsTracker.ui.UserControls
 
         #region METHODS - PRIVATE
 
+        /// <summary> Opens the Edit Solution Dialog </summary>
+        /// <param name="sender"> Sender </param>
+        /// <param name="e"> Event arguments </param>
         private void EditSolution(object sender, RoutedEventArgs e)
         {
             ROW_SOLUTION row = new ROW_SOLUTION();
@@ -77,7 +89,7 @@ namespace ProjectsTracker.ui.UserControls
 
             if (!ok) return;
 
-            DialogSolution dlg = new DialogSolution(parent_window);
+            DialogSolution dlg = new DialogSolution(Application.Current.MainWindow);
 
             dlg.Edit            = true;
             dlg.SolutionHeader  = $"Edit {row.Name}";
@@ -89,6 +101,9 @@ namespace ProjectsTracker.ui.UserControls
             if (dlg.Success && Update != null) Update(this, new EventArgs());
         }
 
+        /// <summary> Opens the Delete Solution Dialog </summary>
+        /// <param name="sender"> Sender </param>
+        /// <param name="e"> Event arguments </param>
         private void DeleteSolution(object sender, RoutedEventArgs e)
         {
             ROW_SOLUTION row = new ROW_SOLUTION();
@@ -97,7 +112,7 @@ namespace ProjectsTracker.ui.UserControls
 
             if (!ok) return;
 
-            DialogDelete dlg = new DialogDelete(parent_window);
+            DialogDelete dlg = new DialogDelete(Application.Current.MainWindow);
 
             dlg.DeleteHeader    = "Delete Solution";
             dlg.DeleteContent   = $"Do you want to delete {row.Name}?";
@@ -108,13 +123,16 @@ namespace ProjectsTracker.ui.UserControls
             if (dlg.Success && Update != null) Update(this, new EventArgs());
         }
 
+        /// <summary> Drag Drop slot </summary>
+        /// <param name="sender"> Sender </param>
+        /// <param name="e"> Event arguments </param>
         private void CardDrop(object sender, DragEventArgs e)
         {
             int project_id = (int)e.Data.GetData(DataFormats.Serializable);
 
             ProjectsManager.Instance.MoveProjectInSolution(project_id, SolutionId);
 
-            Update(this, new EventArgs());
+            if (Update != null) Update(this, new EventArgs());
         }
 
         #endregion
