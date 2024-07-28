@@ -8,6 +8,16 @@ namespace ProjectsTracker.src.ViewModels
     /// <summary> MainWindow View Model </summary>
     class MainWindowViewModel : ViewModelBase
     {
+        #region EVENTS
+
+        /// <summary> Event triggered to notify the UI update </summary>
+        public event EventHandler? BackIconVisibilityChanged = null;
+
+        /// <summary> Event triggered to notify the UI update </summary>
+        public event EventHandler? HomeIconVisibilityChanged = null;
+
+        #endregion
+
         #region MEMBERS
 
         private string maximize_icon = "/icons/maximize.svg";
@@ -44,6 +54,29 @@ namespace ProjectsTracker.src.ViewModels
             NavigateToDashboard = new RelayCommand(execute => Navigation.NavigateTo<PageDashboardViewModel>());
 
             Navigation.NavigateTo<PageDashboardViewModel>();
+
+            Globals.Instance.BackIconVisibilityChanged += Instance_BackIconVisibilityChanged;
+            Globals.Instance.HomeIconVisibilityChanged += Instance_HomeIconVisibilityChanged;
+        }
+
+        #endregion
+
+        #region METHODS - PRIVATE
+
+        /// <summary> Notifies the View that the Back Icon visibility has changed </summary>
+        /// <param name="sender"> Sender </param>
+        /// <param name="e"> Event arguments </param>
+        private void Instance_BackIconVisibilityChanged(object? sender, EventArgs e)
+        {
+            if (BackIconVisibilityChanged != null) BackIconVisibilityChanged(this, new EventArgs());
+        }
+
+        /// <summary> Notifies the View that the Home Icon visibility has changed </summary>
+        /// <param name="sender"> Sender </param>
+        /// <param name="e"> Event arguments </param>
+        private void Instance_HomeIconVisibilityChanged(object? sender, EventArgs e)
+        {
+            if (HomeIconVisibilityChanged != null) HomeIconVisibilityChanged(this, new EventArgs());
         }
 
         #endregion

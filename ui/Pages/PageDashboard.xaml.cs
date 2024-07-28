@@ -5,9 +5,7 @@ using System.Windows.Controls;
 
 namespace ProjectsTracker.ui.Pages
 {
-    /// <summary>
-    /// Logica di interazione per PageDashboard.xaml
-    /// </summary>
+    /// <summary> Logica di interazione per PageDashboard.xaml </summary>
     public partial class PageDashboard : UserControl
     {
         #region METHODS - PUBLIC
@@ -29,13 +27,16 @@ namespace ProjectsTracker.ui.Pages
         /// <param name="e"> Event arguments </param>
         private void PageDashboard_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            ((PageDashboardViewModel)DataContext).Update += PageDashboard_Update;
+            if (DataContext != null)
+            {
+                ((PageDashboardViewModel)DataContext).Update += PageDashboard_Update;
 
-            ((PageDashboardViewModel)DataContext).LoadProjectCards();
-            ((PageDashboardViewModel)DataContext).LoadSolutionCards();
+                ((PageDashboardViewModel)DataContext).LoadProjectCards();
+                ((PageDashboardViewModel)DataContext).LoadSolutionCards();
 
-            LoadProjectCards();
-            LoadSolutionCards();
+                LoadProjectCards();
+                LoadSolutionCards();
+            }
         }
 
         /// <summary> Slot called when Update event is invoked </summary>
@@ -43,8 +44,14 @@ namespace ProjectsTracker.ui.Pages
         /// <param name="e"> Event arguments </param>
         private void PageDashboard_Update(object? sender, EventArgs e)
         {
-            LoadProjectCards();
-            LoadSolutionCards();
+            if (DataContext != null)
+            {
+                ((PageDashboardViewModel)DataContext).LoadProjectCards();
+                ((PageDashboardViewModel)DataContext).LoadSolutionCards();
+
+                LoadProjectCards();
+                LoadSolutionCards();
+            }
         }
 
         /// <summary> Loads the Project Cards on the UI </summary>
@@ -86,6 +93,9 @@ namespace ProjectsTracker.ui.Pages
 
             if (dlg.Success)
             {
+                ((PageDashboardViewModel)DataContext).LoadProjectCards();
+                ((PageDashboardViewModel)DataContext).LoadSolutionCards();
+
                 LoadProjectCards();
                 LoadSolutionCards();
             }
@@ -104,6 +114,9 @@ namespace ProjectsTracker.ui.Pages
 
             if (dlg.Success)
             {
+                ((PageDashboardViewModel)DataContext).LoadProjectCards();
+                ((PageDashboardViewModel)DataContext).LoadSolutionCards();
+
                 LoadProjectCards();
                 LoadSolutionCards();
             }

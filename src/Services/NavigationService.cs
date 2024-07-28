@@ -8,17 +8,30 @@ namespace ProjectsTracker.src.Services
         /// <summary> Current view </summary>
         public ViewModelBase CurrentView { get; }
 
+        /// <summary> Parameters </summary>
+        Dictionary<string, string> Parameters { get; }
+
         /// <summary> Navigation utility </summary>
         /// <typeparam name="T"> View model </typeparam>
-        public void NavigateTo<T>() where T : ViewModelBase;
+        /// <param name="parameters"> Parameters </param>
+        public void NavigateTo<T>(in Dictionary<string, string>? parameters = null) where T : ViewModelBase;
     }
 
     /// <summary> Class to manage the navigation between views </summary>
     class NavigationService : ViewModelBase, INavigationService
     {
+        #region EVENTS
+
+        /// <summary> Event triggered to notify the UI update </summary>
+        public event EventHandler? CurrentViewChanged = null;
+
+        #endregion
+
         #region MEMBERS
 
         private ViewModelBase current_view;
+
+        private Dictionary<string, string>? parameters;
 
         /// <summary> View model factory </summary>
         private Func<Type, ViewModelBase> view_model_factory;
@@ -29,6 +42,9 @@ namespace ProjectsTracker.src.Services
 
         /// <summary> Stores the current view </summary>
         public ViewModelBase CurrentView { get => current_view; set { current_view = value; OnPropertyChanged(); } }
+
+        /// <summary> Stores the parameters </summary>
+        public Dictionary<string, string>? Parameters { get => parameters; set { parameters = value; OnPropertyChanged(); } }
 
         #endregion
 
@@ -43,7 +59,12 @@ namespace ProjectsTracker.src.Services
 
         /// <summary> Navigation utility </summary>
         /// <typeparam name="T"> View model </typeparam>
-        public void NavigateTo<T>() where T : ViewModelBase => CurrentView = view_model_factory.Invoke(typeof(T));
+        /// <param name="parameters"> Parameters </param>
+        public void NavigateTo<T>(in Dictionary<string, string>? parameters = null) where T : ViewModelBase
+        {
+            Parameters  = parameters;
+            CurrentView = view_model_factory.Invoke(typeof(T));
+        }
 
         #endregion
     }

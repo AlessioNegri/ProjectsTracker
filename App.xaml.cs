@@ -31,6 +31,7 @@ namespace ProjectsTracker
             // Add pages
 
             services.AddSingleton<PageDashboardViewModel>();
+            services.AddTransient<PageSolutionViewModel>();
 
             // Add navigation
 

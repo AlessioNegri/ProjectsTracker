@@ -1,17 +1,22 @@
-﻿using ProjectsTracker.src.Database;
-using ProjectsTracker.src;
+﻿using ProjectsTracker.src;
+using ProjectsTracker.src.Database;
+using ProjectsTracker.src.MVVM;
 using ProjectsTracker.ui.Dialogs;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
-using ProjectsTracker.src.MVVM;
 
 namespace ProjectsTracker.ui.UserControls
 {
-    /// <summary>
-    /// Logica di interazione per CardSolution.xaml
-    /// </summary>
+    /// <summary> Class to implement the OpenSolution event args </summary>
+    public class OpenSolutionEventArgs : EventArgs
+    {
+        /// <summary> Reference to the opened solution id </summary>
+        public int SolutionId { get; set; }
+    }
+
+    /// <summary> Logica di interazione per CardSolution.xaml </summary>
     public partial class CardSolution : UserControl, INotifyPropertyChanged
     {
         #region INTERFACE
@@ -31,6 +36,9 @@ namespace ProjectsTracker.ui.UserControls
 
         /// <summary> Event triggered to notify the UI update </summary>
         public event EventHandler? Update = null;
+
+        /// <summary> Event triggered to enter in a solution </summary>
+        public event EventHandler? OpenSolution = null;
 
         #endregion
 
@@ -77,6 +85,17 @@ namespace ProjectsTracker.ui.UserControls
         #endregion
 
         #region METHODS - PRIVATE
+
+        /// <summary> Triggers the opening of a solution card </summary>
+        /// <param name="sender"> Sender </param>
+        /// <param name="e"> Event arguments </param
+        private void EnterSolution(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            Globals.Instance.BackIconVisibility = Visibility.Hidden;
+            Globals.Instance.HomeIconVisibility = Visibility.Visible;
+
+            if (OpenSolution != null) OpenSolution(this, new OpenSolutionEventArgs() { SolutionId = this.SolutionId });
+        }
 
         /// <summary> Opens the Edit Solution Dialog </summary>
         /// <param name="sender"> Sender </param>

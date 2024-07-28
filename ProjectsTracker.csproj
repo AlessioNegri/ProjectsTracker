@@ -9,18 +9,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="icons\back.svg" />
     <None Remove="icons\exit.svg" />
     <None Remove="icons\maximize.svg" />
     <None Remove="icons\minimize.svg" />
+    <None Remove="icons\out.svg" />
     <None Remove="icons\power_settings_new.png" />
     <None Remove="icons\power_settings_new.svg" />
     <None Remove="icons\restore.svg" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="icons\back.svg" />
     <Resource Include="icons\exit.svg" />
     <Resource Include="icons\maximize.svg" />
     <Resource Include="icons\minimize.svg" />
+    <Resource Include="icons\out.svg" />
     <Resource Include="icons\restore.svg" />
   </ItemGroup>
 

@@ -1,6 +1,7 @@
 ﻿using ProjectsTracker.src.Database;
 using ProjectsTracker.src.MVVM;
 using ProjectsTracker.src.Services;
+using ProjectsTracker.ui.UserControls;
 using System.Collections.ObjectModel;
 using System.Windows;
 using UC = ProjectsTracker.ui.UserControls;
@@ -34,6 +35,9 @@ namespace ProjectsTracker.src.ViewModels
         /// <summary> Collection of Solution Cards </summary>
         public ObservableCollection<UC.CardSolution> Solutions { get; set; }
 
+        /// <summary> Navigation toward the Solution page </summary>
+        public RelayCommand NavigateToSolution { get; set; }
+
         #endregion
 
         #region METHODS - PUBLIC
@@ -43,6 +47,11 @@ namespace ProjectsTracker.src.ViewModels
         public PageDashboardViewModel(INavigationService service)
         {
             Navigation = service;
+
+            NavigateToSolution = new RelayCommand(execute => Navigation.NavigateTo<PageSolutionViewModel>());
+
+            Globals.Instance.BackIconVisibility = Visibility.Hidden;
+            Globals.Instance.HomeIconVisibility = Visibility.Hidden;
 
             Projects = new ObservableCollection<UC.CardProject>();
 
@@ -87,6 +96,7 @@ namespace ProjectsTracker.src.ViewModels
                 card.SolutionName   = row.Name;
                 card.SubProjects    = $"N° Sub-Projects: {row.SubProjects}";
                 card.Update         += Card_Update;
+                card.OpenSolution   += Card_OpenSolution;
 
                 Solutions.Add(card);
             }
@@ -105,6 +115,18 @@ namespace ProjectsTracker.src.ViewModels
             LoadSolutionCards();
 
             if (Update != null) Update(this, new EventArgs());
+        }
+
+        /// <summary> Slot called when OpenSolution event is invoked </summary>
+        /// <param name="sender"> Sender </param>
+        /// <param name="e"> Event arguments </param>
+        private void Card_OpenSolution(object? sender, EventArgs e)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+
+            data.Add("SolutionId", ((OpenSolutionEventArgs)e).SolutionId.ToString());
+
+            Navigation.NavigateTo<PageSolutionViewModel>(data);
         }
 
         #endregion

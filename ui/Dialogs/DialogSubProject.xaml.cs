@@ -8,8 +8,8 @@ using System.Windows;
 
 namespace ProjectsTracker.ui.Dialogs
 {
-    /// <summary> Logica di interazione per DialogProject.xaml </summary>
-    public partial class DialogProject : Window, INotifyPropertyChanged
+    /// <summary> Logica di interazione per DialogSubProject.xaml </summary>
+    public partial class DialogSubProject : Window, INotifyPropertyChanged
     {
         #region INTERFACE
 
@@ -32,17 +32,17 @@ namespace ProjectsTracker.ui.Dialogs
 
         private int project_id = CardProject.NullProjectId;
 
+        private int solution_id = CardSolution.NullSolutionId;
+
         private string project_header = string.Empty;
 
         private string project_name = string.Empty;
 
-        private bool project_choice_no_solution = true;
+        private bool project_choice_leave_in_solution = true;
 
-        private bool project_choice_new_solution = false;
+        private bool project_choice_extract_from_solution = false;
 
         private bool project_choice_add_to_solution = false;
-
-        private string project_solution_name = string.Empty;
 
         private KeyValuePair<int, string> project_solution = new KeyValuePair<int, string>();
 
@@ -66,23 +66,23 @@ namespace ProjectsTracker.ui.Dialogs
         /// <summary> Project id </summary>
         public int ProjectId { get => project_id; set => project_id = value; }
 
+        /// <summary> Solution id </summary>
+        public int SolutionId { get => solution_id; set { solution_id = value; } }
+
         /// <summary> Project header </summary>
         public string ProjectHeader { get => project_header; set { project_header = value; OnPropertyChanged(); } }
 
         /// <summary> Project name </summary>
         public string ProjectName { get => project_name; set { project_name = ctbProjectName.Text = value; Validate(); OnPropertyChanged(); } }
 
-        /// <summary> Project radio button (No Solution) </summary>
-        public bool ProjectChoiceNoSolution { get => project_choice_no_solution; set { project_choice_no_solution = value; OnPropertyChanged(); } }
+        /// <summary> Project radio button (Leave In Solution) </summary>
+        public bool ProjectChoiceLeaveInSolution { get => project_choice_leave_in_solution; set { project_choice_leave_in_solution = value; OnPropertyChanged(); } }
 
-        /// <summary> Project radio button (New Solution) </summary>
-        public bool ProjectChoiceNewSolution { get => project_choice_new_solution; set { project_choice_new_solution = value; OnPropertyChanged(); } }
+        /// <summary> Project radio button (Extract From Solution) </summary>
+        public bool ProjectChoiceExtractFromSolution { get => project_choice_extract_from_solution; set { project_choice_extract_from_solution = value; OnPropertyChanged(); } }
 
         /// <summary> Project radio button (Add To Solution) </summary>
         public bool ProjectChoiceAddToSolution { get => project_choice_add_to_solution; set { project_choice_add_to_solution = value; OnPropertyChanged(); } }
-
-        /// <summary> Project solution name </summary>
-        public string ProjectSolutionName { get => project_solution_name; set { project_solution_name = value; Validate(); OnPropertyChanged(); } }
 
         /// <summary> Project solution </summary>
         public KeyValuePair<int, string> ProjectSolution { get => project_solution; set { project_solution = value; OnPropertyChanged(); } }
@@ -99,7 +99,7 @@ namespace ProjectsTracker.ui.Dialogs
 
         /// <summary> Constructor </summary>
         /// <param name="parent"> Parent Window </param>
-        public DialogProject(Window? parent = null)
+        public DialogSubProject(Window? parent = null)
         {
             Owner = parent;
 
@@ -131,13 +131,6 @@ namespace ProjectsTracker.ui.Dialogs
                     message = "Project Name is empty!";
                 }
             }
-            else if (propertyName == "ProjectSolutionName")
-            {
-                if (ProjectChoiceNewSolution && (string.IsNullOrEmpty(ProjectSolutionName) || string.IsNullOrWhiteSpace(ProjectSolutionName)))
-                {
-                    message = "Solution Name is empty!";
-                }
-            }
 
             // Update errors dictionary
 
@@ -159,7 +152,7 @@ namespace ProjectsTracker.ui.Dialogs
         private void Cancel(object sender, RoutedEventArgs e)
         {
             Success = false;
-            
+
             Close();
         }
 
@@ -168,9 +161,8 @@ namespace ProjectsTracker.ui.Dialogs
         /// <param name="e"> Event arguments </param>
         private void Confirm(object sender, RoutedEventArgs e)
         {
-            Error               = string.Empty;
-            ProjectName         = ctbProjectName.Text;
-            ProjectSolutionName = ctbSolutionName.Text;
+            Error       = string.Empty;
+            ProjectName = ctbProjectName.Text;
 
             if (ProjectChoiceAddToSolution && SolutionItems.Count() == 0)
             {
@@ -214,7 +206,7 @@ namespace ProjectsTracker.ui.Dialogs
                 SolutionItems.Add(new KeyValuePair<int, string>(solution.SolutionID, solution.Name));
             }
 
-            if (SolutionItems.Count > 0) ProjectSolution = SolutionItems.ElementAt(0);
+            ProjectSolution = SolutionItems.ElementAt(0);
         }
 
         /// <summary> Inserts a new project </summary>
@@ -225,17 +217,13 @@ namespace ProjectsTracker.ui.Dialogs
 
             row.Name = ProjectName;
 
-            if (ProjectChoiceNoSolution)
+            if (ProjectChoiceLeaveInSolution)
+            {
+                row.SolutionID = SolutionId;
+            }
+            else if (ProjectChoiceExtractFromSolution)
             {
                 row.SolutionID = null;
-            }
-            else if (ProjectChoiceNewSolution)
-            {
-                long solution_id = CardSolution.NullSolutionId;
-
-                if (!InsertSolution(out solution_id)) return false;
-
-                row.SolutionID = (int)solution_id;
             }
             else if (ProjectChoiceAddToSolution)
             {
@@ -256,17 +244,13 @@ namespace ProjectsTracker.ui.Dialogs
             row.ProjectID   = ProjectId;
             row.Name        = ProjectName;
 
-            if (ProjectChoiceNoSolution)
+            if (ProjectChoiceLeaveInSolution)
+            {
+                row.SolutionID = SolutionId;
+            }
+            else if (ProjectChoiceExtractFromSolution)
             {
                 row.SolutionID = null;
-            }
-            else if (ProjectChoiceNewSolution)
-            {
-                long solution_id = CardSolution.NullSolutionId;
-
-                if (!InsertSolution(out solution_id)) return false;
-
-                row.SolutionID = (int)solution_id;
             }
             else if (ProjectChoiceAddToSolution)
             {
@@ -274,23 +258,6 @@ namespace ProjectsTracker.ui.Dialogs
             }
 
             ProjectsManager.Instance.UpdateProject(row);
-
-            return true;
-        }
-
-        /// <summary> Inserts a new solution </summary>
-        /// <returns> Success of the operations </returns>
-        private bool InsertSolution(out long solution_id)
-        {
-            solution_id = 0;
-
-            ROW_SOLUTION row = new ROW_SOLUTION();
-
-            row.Name = ProjectSolutionName;
-
-            if (!SolutionsManager.Instance.InsertSolution(row)) return false;
-
-            if (!DBMS.Instance.LastInsertRowId(out solution_id)) return false;
 
             return true;
         }

@@ -38,21 +38,31 @@
             
             <!-- Header -->
 
-            <Border Background="CornflowerBlue" CornerRadius="20,20,0,0" MouseLeftButtonDown="Drag" />
+            <Border Background="CornflowerBlue" CornerRadius="20,20,0,0" />
+
+            <!--Image x:Name="_back_icon_" Source="{svgc:SvgImage /icons/back.svg}" Width="20" MouseLeftButtonDown="{Binding Path=NavigateToDashboard}" Cursor="Hand" /-->
+
+            <Button x:Name="_home_" Width="50" Background="WhiteSmoke" HorizontalAlignment="Left" Margin="20,0,0,0" Click="HomeIconClicked">
+                <md:PackIcon Kind="Home" Foreground="CornflowerBlue" />
+            </Button>
+            
+            <Button x:Name="_back_" Width="50" Background="WhiteSmoke" HorizontalAlignment="Left" Margin="80,0,0,0" Command="{Binding Path=NavigateToSolution}">
+                <md:PackIcon Kind="ArrowBack" Foreground="CornflowerBlue" />
+            </Button>
 
             <TextBlock Text="PROJECTS TRACKER" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="28" FontWeight="Bold" FontFamily="Arial Black" Foreground="White" MouseLeftButtonDown="Drag" />
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
 
-                <Border Width="30" Height="30" Background="#CCFFC107" CornerRadius="20" Margin="0,0,10,0" Cursor="Hand" MouseLeftButtonDown="Minimize">
+                <Border Width="30" Height="30" Background="#CCFFC107" CornerRadius="20" Margin="0,0,10,0" Cursor="Hand" MouseLeftButtonUp="Minimize">
                     <Image Source="{svgc:SvgImage /icons/minimize.svg}" Width="20" />
                 </Border>
 
-                <Border Width="30" Height="30" Background="#CC198754" CornerRadius="20" Margin="0,0,10,0" Cursor="Hand" MouseLeftButtonDown="Maximize">
+                <Border Width="30" Height="30" Background="#CC198754" CornerRadius="20" Margin="0,0,10,0" Cursor="Hand" MouseLeftButtonUp="Maximize">
                     <svgc:SvgViewbox Source="{Binding MaximizeIcon, UpdateSourceTrigger=PropertyChanged}" Width="20" />
                 </Border>
 
-                <Border Width="30" Height="30" Background="#CCDC3545" CornerRadius="20" Margin="0,0,10,0" Cursor="Hand" MouseLeftButtonDown="Close">
+                <Border Width="30" Height="30" Background="#CCDC3545" CornerRadius="20" Margin="0,0,10,0" Cursor="Hand" MouseLeftButtonUp="Close">
                     <Image Source="{svgc:SvgImage /icons/exit.svg}" Width="20" />
                 </Border>
 
@@ -60,7 +70,7 @@
 
             <!-- Body -->
 
-            <ContentControl Grid.Row="1" Content="{Binding Navigation.CurrentView}" />
+            <ContentControl x:Name="_content_" Grid.Row="1" Content="{Binding Navigation.CurrentView}" />
 
             <!-- Footer -->
 

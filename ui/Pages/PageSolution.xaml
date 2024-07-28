@@ -1,36 +1,49 @@
-﻿<UserControl x:Class="ProjectsTracker.ui.Pages.PageDashboard"
+﻿<UserControl x:Class="ProjectsTracker.ui.Pages.PageSolution"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:svgc="http://sharpvectors.codeplex.com/svgc/"
              xmlns:local="clr-namespace:ProjectsTracker.ui.Pages"
              mc:Ignorable="d" 
              d:DesignHeight="450"
              d:DesignWidth="800">
-
+    
     <Grid>
 
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="75"/>
             <RowDefinition Height="75"/>
         </Grid.RowDefinitions>
-        
+
         <!-- Row 0 -->
 
         <ScrollViewer Grid.Row="0" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="20" >
 
-            <StackPanel Name="_projects_container_" Height="Auto" Width="Auto" Orientation="Horizontal" />
+            <StackPanel Name="_sub_projects_container_" Height="Auto" Width="Auto" Orientation="Horizontal" />
 
         </ScrollViewer>
 
         <!-- Row 1 -->
 
-        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Margin="20" >
+        <Grid Grid.Row="1" Margin="10">
 
-            <StackPanel Name="_solutions_container_" Height="Auto" Width="Auto" Orientation="Horizontal" />
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-        </ScrollViewer>
+            <TextBlock Grid.Column="0" />
+
+            <Border Grid.Column="1" Width="50" Height="50" Background="#CCFFC107" CornerRadius="5" AllowDrop="True" Drop="CardDrop">
+                <Image Source="{svgc:SvgImage /icons/out.svg}" Width="40" />
+            </Border>
+
+            <TextBlock Grid.Column="2" />
+
+        </Grid>
 
         <!-- Row 2 -->
 
@@ -38,21 +51,18 @@
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="150" />
-                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="175" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Column="0" />
 
-            <Button Grid.Column="1" Content="Add Project" Background="#0D6EFD" Foreground="White" BorderBrush="#0D6EFD" Width="125" Click="AddProjectDialog" />
+            <Button Grid.Column="1" Content="Add Sub Project" Background="#0D6EFD" Foreground="White" BorderBrush="#0D6EFD" Width="150" Click="AddSubProjectDialog" />
 
-            <Button Grid.Column="2" Content="Add Solution" Background="#0D6EFD" Foreground="White" BorderBrush="#0D6EFD" Width="125" Click="AddSolutionDialog" />
-
-            <TextBlock Grid.Column="3" />
+            <TextBlock Grid.Column="2" />
 
         </Grid>
 
     </Grid>
-
+    
 </UserControl>

@@ -22,7 +22,7 @@
             
             <!-- Row 0 -->
 
-            <TextBlock Grid.Row="0" Text="PROJECT" FontSize="20" FontWeight="Bold" Background="#0D6EFD" Foreground="White" TextAlignment="Center" VerticalAlignment="Stretch" />
+            <TextBlock Grid.Row="0" Text="{Binding Caption}" FontSize="20" FontWeight="Bold" Background="#0D6EFD" Foreground="White" TextAlignment="Center" VerticalAlignment="Stretch" />
 
             <!-- Row 1 -->
             

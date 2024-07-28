@@ -179,6 +179,22 @@ namespace ProjectsTracker.src.Database
             return true;
         }
 
+        /// <summary> Moves a project outside a solution </summary>
+        /// <param name="project_id"> Project ID </param>
+        /// <returns> Success of the operation </returns>
+        public bool MoveProjectOutSolution(int project_id)
+        {
+            string query = $"UPDATE projects SET SolutionID = NULL WHERE ProjectID = @project_id;";
+
+            Dictionary<String, Object> parameters = new Dictionary<String, Object>();
+
+            parameters.Add("@project_id", project_id);
+
+            if (!DBMS.Instance.ExecuteQuery(query, parameters)) return false;
+
+            return true;
+        }
+
         #endregion
 
         #region METHODS - PRIVATE
