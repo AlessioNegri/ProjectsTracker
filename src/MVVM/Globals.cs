@@ -8,6 +8,9 @@ namespace ProjectsTracker.src.MVVM
         #region EVENTS
 
         /// <summary> Event triggered to notify the UI update </summary>
+        public event EventHandler? WindowTitleChanged = null;
+
+        /// <summary> Event triggered to notify the UI update </summary>
         public event EventHandler? BackIconVisibilityChanged = null;
 
         /// <summary> Event triggered to notify the UI update </summary>
@@ -23,11 +26,28 @@ namespace ProjectsTracker.src.MVVM
         /// <summary> Thread lock </summary>
         private static readonly object padlock = new object();
 
+        private string window_title = "PROJECTS TRACKER";
+
         private Visibility back_icon_visibility = Visibility.Hidden;
 
         private Visibility home_icon_visibility = Visibility.Hidden;
 
         #endregion
+
+        #region BINDINGS
+
+        /// <summary> Stores the title of the Window </summary>
+        public string WindowTitle
+        {
+            get => window_title;
+
+            set
+            {
+                window_title = value;
+
+                if (WindowTitleChanged != null) WindowTitleChanged(this, new EventArgs());
+            }
+        }
 
         /// <summary> Stores the visibility of the Back Icon </summary>
         public Visibility BackIconVisibility
@@ -54,6 +74,8 @@ namespace ProjectsTracker.src.MVVM
                 if (HomeIconVisibilityChanged != null) HomeIconVisibilityChanged(this, new EventArgs());
             }
         }
+
+        #endregion
 
         #region METHODS - PUBLIC
 

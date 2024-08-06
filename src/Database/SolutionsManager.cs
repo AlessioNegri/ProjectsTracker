@@ -161,7 +161,7 @@ namespace ProjectsTracker.src.Database
         #region METHODS - PRIVATE
 
         /// <summary> Constructor </summary>
-        public SolutionsManager() { }
+        private SolutionsManager() { }
 
         #endregion
     }

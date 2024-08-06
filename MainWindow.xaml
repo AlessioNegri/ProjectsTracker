@@ -38,19 +38,19 @@
             
             <!-- Header -->
 
-            <Border Background="CornflowerBlue" CornerRadius="20,20,0,0" />
+            <Border Background="CornflowerBlue" CornerRadius="20,20,0,0" MouseLeftButtonDown="Drag" />
 
             <!--Image x:Name="_back_icon_" Source="{svgc:SvgImage /icons/back.svg}" Width="20" MouseLeftButtonDown="{Binding Path=NavigateToDashboard}" Cursor="Hand" /-->
 
-            <Button x:Name="_home_" Width="50" Background="WhiteSmoke" HorizontalAlignment="Left" Margin="20,0,0,0" Click="HomeIconClicked">
-                <md:PackIcon Kind="Home" Foreground="CornflowerBlue" />
-            </Button>
-            
-            <Button x:Name="_back_" Width="50" Background="WhiteSmoke" HorizontalAlignment="Left" Margin="80,0,0,0" Command="{Binding Path=NavigateToSolution}">
-                <md:PackIcon Kind="ArrowBack" Foreground="CornflowerBlue" />
+            <Button x:Name="_home_" Background="WhiteSmoke" HorizontalAlignment="Left" Margin="20,0,0,0" Click="HomeIconClicked">
+                <md:PackIcon Kind="Home" Foreground="CornflowerBlue" Width="25" Height="25" />
             </Button>
 
-            <TextBlock Text="PROJECTS TRACKER" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="28" FontWeight="Bold" FontFamily="Arial Black" Foreground="White" MouseLeftButtonDown="Drag" />
+            <Button x:Name="_back_" Background="WhiteSmoke" HorizontalAlignment="Left" Margin="80,0,0,0" Click="HomeBackClicked">
+                <md:PackIcon Kind="ArrowBack" Foreground="CornflowerBlue" Width="25" Height="25" />
+            </Button>
+
+            <TextBlock x:Name="_window_title_" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="28" FontWeight="Bold" FontFamily="Arial Black" Foreground="White" MouseLeftButtonDown="Drag" />
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
 

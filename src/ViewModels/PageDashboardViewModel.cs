@@ -38,6 +38,9 @@ namespace ProjectsTracker.src.ViewModels
         /// <summary> Navigation toward the Solution page </summary>
         public RelayCommand NavigateToSolution { get; set; }
 
+        /// <summary> Navigation toward the Project page </summary>
+        public RelayCommand NavigateToProject { get; set; }
+
         #endregion
 
         #region METHODS - PUBLIC
@@ -48,10 +51,12 @@ namespace ProjectsTracker.src.ViewModels
         {
             Navigation = service;
 
-            NavigateToSolution = new RelayCommand(execute => Navigation.NavigateTo<PageSolutionViewModel>());
+            NavigateToSolution  = new RelayCommand(execute => Navigation.NavigateTo<PageSolutionViewModel>());
+            NavigateToProject   = new RelayCommand(execute => Navigation.NavigateTo<PageProjectViewModel>());
 
-            Globals.Instance.BackIconVisibility = Visibility.Hidden;
+            Globals.Instance.WindowTitle        = "PROJECTS TRACKER";
             Globals.Instance.HomeIconVisibility = Visibility.Hidden;
+            Globals.Instance.BackIconVisibility = Visibility.Hidden;
 
             Projects = new ObservableCollection<UC.CardProject>();
 
@@ -73,7 +78,10 @@ namespace ProjectsTracker.src.ViewModels
 
                 card.ProjectId      = row.ProjectID;
                 card.ProjectName    = row.Name;
+                card.SolutionId     = row.SolutionID ?? UC.CardProject.NullSolutionId;
+                card.SolutionName   = row.SolutionName;
                 card.Update         += Card_Update;
+                card.OpenProject    += Card_OpenProject;
 
                 Projects.Add(card);
             }
@@ -115,6 +123,20 @@ namespace ProjectsTracker.src.ViewModels
             LoadSolutionCards();
 
             if (Update != null) Update(this, new EventArgs());
+        }
+
+        /// <summary> Slot called when OpenProject event is invoked </summary>
+        /// <param name="sender"> Sender </param>
+        /// <param name="e"> Event arguments </param>
+        private void Card_OpenProject(object? sender, EventArgs e)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+
+            data.Add("ProjectId", ((OpenProjectEventArgs)e).ProjectId.ToString());
+            data.Add("SolutionId", ((OpenProjectEventArgs)e).SolutionId.ToString());
+            data.Add("SolutionName", ((OpenProjectEventArgs)e).SolutionName);
+
+            Navigation.NavigateTo<PageProjectViewModel>(data);
         }
 
         /// <summary> Slot called when OpenSolution event is invoked </summary>

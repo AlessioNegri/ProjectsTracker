@@ -11,6 +11,9 @@ namespace ProjectsTracker.src.ViewModels
         #region EVENTS
 
         /// <summary> Event triggered to notify the UI update </summary>
+        public event EventHandler? WindowTitleChanged = null;
+
+        /// <summary> Event triggered to notify the UI update </summary>
         public event EventHandler? BackIconVisibilityChanged = null;
 
         /// <summary> Event triggered to notify the UI update </summary>
@@ -55,20 +58,35 @@ namespace ProjectsTracker.src.ViewModels
 
             Navigation.NavigateTo<PageDashboardViewModel>();
 
-            Globals.Instance.BackIconVisibilityChanged += Instance_BackIconVisibilityChanged;
-            Globals.Instance.HomeIconVisibilityChanged += Instance_HomeIconVisibilityChanged;
+            Globals.Instance.WindowTitleChanged         += Instance_WindowTitleChanged;
+            Globals.Instance.HomeIconVisibilityChanged  += Instance_HomeIconVisibilityChanged;
+            Globals.Instance.BackIconVisibilityChanged  += Instance_BackIconVisibilityChanged;
+        }
+
+        /// <summary> Navigates back to the solution page </summary>
+        public void NavigateToSolution()
+        {
+            Globals.Instance.WindowTitle = ((NavigationService)Navigation).Parameters!["SolutionName"].ToUpper();
+
+            var solution_id = Int32.Parse(((NavigationService)Navigation).Parameters!["SolutionId"]);
+
+            Dictionary<string, string> data = new Dictionary<string, string>();
+
+            data.Add("SolutionId", solution_id.ToString());
+
+            Navigation.NavigateTo<PageSolutionViewModel>(data);
         }
 
         #endregion
 
         #region METHODS - PRIVATE
 
-        /// <summary> Notifies the View that the Back Icon visibility has changed </summary>
+        /// <summary> Notifies the View that the Window title has changed </summary>
         /// <param name="sender"> Sender </param>
         /// <param name="e"> Event arguments </param>
-        private void Instance_BackIconVisibilityChanged(object? sender, EventArgs e)
+        private void Instance_WindowTitleChanged(object? sender, EventArgs e)
         {
-            if (BackIconVisibilityChanged != null) BackIconVisibilityChanged(this, new EventArgs());
+            if (WindowTitleChanged != null) WindowTitleChanged(this, new EventArgs());
         }
 
         /// <summary> Notifies the View that the Home Icon visibility has changed </summary>
@@ -77,6 +95,14 @@ namespace ProjectsTracker.src.ViewModels
         private void Instance_HomeIconVisibilityChanged(object? sender, EventArgs e)
         {
             if (HomeIconVisibilityChanged != null) HomeIconVisibilityChanged(this, new EventArgs());
+        }
+
+        /// <summary> Notifies the View that the Back Icon visibility has changed </summary>
+        /// <param name="sender"> Sender </param>
+        /// <param name="e"> Event arguments </param>
+        private void Instance_BackIconVisibilityChanged(object? sender, EventArgs e)
+        {
+            if (BackIconVisibilityChanged != null) BackIconVisibilityChanged(this, new EventArgs());
         }
 
         #endregion

@@ -25,18 +25,18 @@
             <TextBlock Grid.Row="0" Text="{Binding Caption}" FontSize="20" FontWeight="Bold" Background="#0D6EFD" Foreground="White" TextAlignment="Center" VerticalAlignment="Stretch" />
 
             <!-- Row 1 -->
-            
-            <Grid Grid.Row="1" VerticalAlignment="Stretch">
+
+            <Grid Grid.Row="1" MouseLeftButtonUp="EnterProject">
 
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <TextBlock Text="{Binding ProjectName, UpdateSourceTrigger=PropertyChanged}" FontSize="16" TextAlignment="Center" VerticalAlignment="Center">
+                <Border VerticalAlignment="Stretch">
 
-                    <TextBlock.Style>
+                    <Border.Style>
 
-                        <Style TargetType="TextBlock">
+                        <Style TargetType="Border">
 
                             <Style.Triggers>
 
@@ -51,9 +51,11 @@
 
                         </Style>
 
-                    </TextBlock.Style>
+                    </Border.Style>
 
-                </TextBlock>
+                    <TextBlock Text="{Binding ProjectName, UpdateSourceTrigger=PropertyChanged}" FontSize="16" TextAlignment="Center" VerticalAlignment="Center" />
+
+                </Border>
 
             </Grid>
 

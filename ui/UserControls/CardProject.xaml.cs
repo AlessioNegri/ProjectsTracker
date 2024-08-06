@@ -10,9 +10,20 @@ using System.Windows.Input;
 
 namespace ProjectsTracker.ui.UserControls
 {
-    /// <summary>
-    /// Logica di interazione per Card.xaml
-    /// </summary>
+    /// <summary> Class to implement the OpenProject event args </summary>
+    public class OpenProjectEventArgs : EventArgs
+    {
+        /// <summary> Reference to the opened project id </summary>
+        public int ProjectId { get; set; }
+
+        /// <summary> Reference to the opened solution id </summary>
+        public int SolutionId { get; set; }
+
+        /// <summary> Reference to the opened solution name </summary>
+        public string SolutionName { get; set; }
+    }
+
+    /// <summary> Logica di interazione per Card.xaml </summary>
     public partial class CardProject : UserControl, INotifyPropertyChanged
     {
         #region INTERFACE
@@ -33,12 +44,18 @@ namespace ProjectsTracker.ui.UserControls
         /// <summary> Event triggered to notify the UI update </summary>
         public event EventHandler? Update = null;
 
+        /// <summary> Event triggered to enter in a project </summary>
+        public event EventHandler? OpenProject = null;
+
         #endregion
 
         #region CONST
 
         /// <summary> Null project unique identifier </summary>
         public const int NullProjectId = 0;
+
+        /// <summary> Null solution unique identifier </summary>
+        public const int NullSolutionId = 0;
 
         #endregion
 
@@ -50,7 +67,11 @@ namespace ProjectsTracker.ui.UserControls
 
         private int project_id = NullProjectId;
 
+        private int solution_id = NullSolutionId;
+
         private string project_name = string.Empty;
+
+        private string solution_name = string.Empty;
 
         #endregion
 
@@ -83,8 +104,14 @@ namespace ProjectsTracker.ui.UserControls
         /// <summary> Project Id </summary>
         public int ProjectId { get => project_id; set { project_id = value; OnPropertyChanged(); } }
 
+        /// <summary> Solution Id </summary>
+        public int SolutionId { get => solution_id; set { solution_id = value; OnPropertyChanged(); } }
+
         /// <summary> Project Name </summary>
         public string ProjectName { get => project_name; set { project_name = value; OnPropertyChanged(); } }
+
+        /// <summary> Solution Name </summary>
+        public string SolutionName { get => solution_name; set => solution_name = value; }
 
         #endregion
 
@@ -101,6 +128,18 @@ namespace ProjectsTracker.ui.UserControls
         #endregion
 
         #region METHODS - PRIVATE
+
+        /// <summary> Triggers the opening of a project card </summary>
+        /// <param name="sender"> Sender </param>
+        /// <param name="e"> Event arguments </param
+        private void EnterProject(object sender, MouseButtonEventArgs e)
+        {
+            Globals.Instance.WindowTitle        = ProjectName.ToUpper();
+            Globals.Instance.HomeIconVisibility = Visibility.Visible;
+            Globals.Instance.BackIconVisibility = SubProject ? Visibility.Visible : Visibility.Hidden;
+
+            if (OpenProject != null) OpenProject(this, new OpenProjectEventArgs() { ProjectId = this.ProjectId, SolutionId = this.SolutionId, SolutionName = this.SolutionName });
+        }
 
         /// <summary> Opens the Edit Project Dialog </summary>
         /// <param name="sender"> Sender </param>
@@ -174,7 +213,7 @@ namespace ProjectsTracker.ui.UserControls
                 DragDrop.DoDragDrop(cardProject, new DataObject(DataFormats.Serializable, ProjectId), DragDropEffects.Move);
             }
         }
-        
+
         #endregion
     }
 }

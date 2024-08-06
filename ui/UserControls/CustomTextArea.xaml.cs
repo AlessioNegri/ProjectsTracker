@@ -1,13 +1,12 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace ProjectsTracker.ui.UserControls
 {
-    /// <summary> Logica di interazione per CustomTextBox.xaml </summary>
-    public partial class CustomTextBox : UserControl, INotifyPropertyChanged
+    /// <summary> Logica di interazione per CustomTextArea.xaml </summary>
+    public partial class CustomTextArea : UserControl, INotifyPropertyChanged
     {
         #region INTERFACE
 
@@ -28,8 +27,6 @@ namespace ProjectsTracker.ui.UserControls
 
         private string placeholder = string.Empty;
 
-        private string regex = "[\\s\\S]*";
-
         #endregion
 
         #region BINDINGS
@@ -40,15 +37,12 @@ namespace ProjectsTracker.ui.UserControls
         /// <summary> Placeholder text </summary>
         public string Placeholder { get => placeholder; set { placeholder = value; OnPropertyChanged(); } }
 
-        /// <summary> Regex </summary>
-        public string Regex { get => regex; set { regex = value; OnPropertyChanged(); } }
-
         #endregion
 
         #region METHODS - PUBLIC
 
         /// <summary> Constructor </summary>
-        public CustomTextBox()
+        public CustomTextArea()
         {
             DataContext = this;
 
@@ -65,23 +59,6 @@ namespace ProjectsTracker.ui.UserControls
         private void TextChanged(object sender, TextChangedEventArgs e)
         {
             ctbPlaceholder.Visibility = string.IsNullOrEmpty(ctbInput.Text) ? Visibility.Visible : Visibility.Hidden;
-        }
-
-        /// <summary> Regex validation </summary>
-        /// <param name="sender"> Sender </param>
-        /// <param name="e"> Event arguments </param>
-        private void Validation(object sender, System.Windows.Input.TextCompositionEventArgs e)
-        {
-            /*
-            Regex re = new Regex(Regex);
-
-            e.Handled = re.IsMatch(e.Text);
-
-            if (!e.Handled && !String.IsNullOrEmpty(ctbInput.Text))
-            {
-                ctbInput.Text = e.Text.Remove(e.Text.Length - 1, 1);
-            }
-            */
         }
 
         #endregion

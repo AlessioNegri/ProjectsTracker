@@ -13,7 +13,7 @@
         <Rectangle Fill="White" RadiusX="5" RadiusY="5" Panel.ZIndex="-2" />
 
         <TextBox x:Name="ctbInput" VerticalContentAlignment="Center" FontSize="16" FontWeight="Light" TextChanged="TextChanged"
-                 Text="{Binding Text, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                 PreviewTextInput="Validation" Text="{Binding Text, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
 
         <TextBlock x:Name="ctbPlaceholder" VerticalAlignment="Center" Margin="5,0,30,0" FontSize="16" FontWeight="Light" Foreground="DarkGray" Background="Transparent" Panel.ZIndex="-1"
                    Text="{Binding Placeholder, UpdateSourceTrigger=PropertyChanged}" />

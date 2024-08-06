@@ -91,8 +91,9 @@ namespace ProjectsTracker.ui.UserControls
         /// <param name="e"> Event arguments </param
         private void EnterSolution(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            Globals.Instance.BackIconVisibility = Visibility.Hidden;
+            Globals.Instance.WindowTitle        = SolutionName.ToUpper();
             Globals.Instance.HomeIconVisibility = Visibility.Visible;
+            Globals.Instance.BackIconVisibility = Visibility.Hidden;
 
             if (OpenSolution != null) OpenSolution(this, new OpenSolutionEventArgs() { SolutionId = this.SolutionId });
         }
