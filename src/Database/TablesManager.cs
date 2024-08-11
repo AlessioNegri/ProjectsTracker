@@ -36,13 +36,55 @@ namespace ProjectsTracker.src.Database
 
         /// <summary> Executes a SELECT query on "project_{id}" table </summary>
         /// <param name="project_id"> Project Id </param>
+        /// <param name="version"> Filtered version </param>
+        /// <param name="type"> Filtered type </param>
+        /// <param name="status"> Filtered status </param>
+        /// <param name="priority"> Filtered priority </param>
         /// <param name="elements"> List of rows </param>
         /// <returns> Success of the operation </returns>
-        public bool SelectRows(in int project_id, out List<ROW_TABLE> elements)
+        public bool SelectRows(in int project_id, in string version, in int type, in int status, in int priority, out List<ROW_TABLE> elements)
         {
-            elements = new List<ROW_TABLE>();
+            // Get last version
 
-            string query = $"SELECT * FROM project_{project_id};";
+            var versions = new List<string>();
+
+            SelectVersions(project_id, out versions);
+
+            var lastVersion = (versions.Count > 0) ? versions[versions.Count - 1] : "";
+
+            // Filters
+
+            var conditions = new List<string>();
+
+            if (version != "All")
+            {
+                if (version == lastVersion)
+                {
+                    conditions.Add($"Version IN ('{Common.PrepareVersion(version)}', '')");
+                }
+                else
+                {
+                    conditions.Add($"Version = '{Common.PrepareVersion(version)}'");
+                }
+            }
+
+            if (type != -1) conditions.Add($"Type = {type}");
+
+            if (status != -1) conditions.Add($"Status = {status}");
+
+            if (priority != -1) conditions.Add($"Priority = {priority}");
+
+            var condition = string.Empty;
+
+            if (conditions.Count > 0) condition = "WHERE " + String.Join(" AND ", conditions);
+
+            // Query
+
+            string query = $"SELECT * FROM project_{project_id} {condition} ORDER BY Version, Type, Number;";
+
+            // Execution
+
+            elements = new List<ROW_TABLE>();
 
             string json = string.Empty;
 
@@ -70,6 +112,7 @@ namespace ProjectsTracker.src.Database
                 row.Title               = Common.DecodeUnicode(obj.Title);
                 row.Description         = Common.DecodeUnicode(obj.Description);
                 row.Note                = Common.DecodeUnicode(obj.Note);
+                row.Ordering            = row.Version.ToString() + "&" + (Common.CheckVersion(row.Version, row.PatchVersion) ? "" : row.PatchVersion.ToString());
 
                 elements.Add(row);
             }
@@ -109,6 +152,35 @@ namespace ProjectsTracker.src.Database
 
             return true;
         }
+
+        /// <summary> Executes a SELECT query on "project_{id}" table for the available versions </summary>
+        /// <param name="project_id"> Project Id </param>
+        /// <param name="versions"> List of versions </param>
+        /// <returns> Success of the operation </returns>
+        public bool SelectVersions(in int project_id, out List<string> versions)
+        {
+            versions = new List<string>();
+
+            string query = $"SELECT * FROM project_{project_id} GROUP BY Version ORDER BY Version;";
+
+            string json = string.Empty;
+
+            if (!DBMS.Instance.ExecuteReader(query, out json)) return false;
+
+            List<ROW_TABLE>? jsonArr = JsonConvert.DeserializeObject<List<ROW_TABLE>>(json);
+
+            if (jsonArr is null) return false;
+
+            if (jsonArr.Count == 0) return false;
+
+            foreach (var obj in jsonArr)
+            {
+                versions.Add(Common.ConvertVersion(obj.Version));
+            }
+
+            return true;
+        }
+
 
         /// <summary> Inserts a new ECR </summary>
         /// <param name="project_id"> Project Id </param>

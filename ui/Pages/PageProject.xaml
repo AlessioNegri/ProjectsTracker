@@ -91,7 +91,7 @@
         
         <!-- Table -->
 
-        <DataGrid Grid.Row="1" Margin="20,10,20,10" BorderBrush="DarkBlue" BorderThickness="1" CanUserResizeColumns="False" x:Name="_table_" ItemsSource="{Binding ProjectRows}"
+        <DataGrid Grid.Row="1" Margin="20,10,20,10" BorderBrush="LightGray" BorderThickness="1" CanUserResizeColumns="False" x:Name="_table_" ItemsSource="{Binding ProjectRows}"
                   AutoGenerateColumns="False" CanUserAddRows="False" CanUserReorderColumns="False" IsHitTestVisible="True"
                   HorizontalContentAlignment="Center">
 
@@ -200,9 +200,9 @@
                                                 <!-- RELEASE -->
 
                                                 <DataTrigger Binding="{Binding Type}" Value="2">
-                                                    
+
                                                     <Setter Property="Background" Value="#0D6EFD" />
-                                                    
+
                                                 </DataTrigger>
 
                                                 <!-- PATCH -->
@@ -334,9 +334,9 @@
                         <!-- ECR -->
 
                         <DataTrigger Binding="{Binding Type}" Value="0">
-                            
+
                             <Setter Property="Background" Value="#D1E7DD" />
-                            
+
                         </DataTrigger>
 
                         <!-- PR -->
@@ -352,7 +352,9 @@
                         <DataTrigger Binding="{Binding Type}" Value="2">
                             
                             <Setter Property="Background" Value="#CFE2FF" />
-                            
+                            <Setter Property="BorderThickness" Value="0,0,0,1" />
+                            <Setter Property="BorderBrush" Value="Black" />
+
                         </DataTrigger>
 
                         <!-- PATCH -->
@@ -360,7 +362,9 @@
                         <DataTrigger Binding="{Binding Type}" Value="3">
                             
                             <Setter Property="Background" Value="#E2E3E5" />
-                            
+                            <Setter Property="BorderThickness" Value="0,0,0,1" />
+                            <Setter Property="BorderBrush" Value="Black" />
+
                         </DataTrigger>
 
                     </Style.Triggers>
@@ -370,6 +374,39 @@
             </DataGrid.RowStyle>
 
         </DataGrid>
+        
+        <!-- Filters -->
+
+        <Grid Grid.Row="2" Margin="20,10,20,10">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Column="0" Text="Version" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,10,0" />
+
+            <ComboBox Grid.Column="1" FontSize="16" ItemsSource="{Binding VersionItems}" SelectedItem="{Binding Version}" DisplayMemberPath="Value" />
+
+            <TextBlock Grid.Column="2" Text="Type" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,10,0" />
+
+            <ComboBox Grid.Column="3" FontSize="16" ItemsSource="{Binding TypeItems}" SelectedItem="{Binding Type}" DisplayMemberPath="Value" />
+
+            <TextBlock Grid.Column="4" Text="Status" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,10,0" />
+
+            <ComboBox Grid.Column="5" FontSize="16" ItemsSource="{Binding StatusItems}" SelectedItem="{Binding Status}" DisplayMemberPath="Value" />
+
+            <TextBlock Grid.Column="6" Text="Priority" FontSize="16" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10,0,10,0" />
+
+            <ComboBox Grid.Column="7" FontSize="16" ItemsSource="{Binding PriorityItems}" SelectedItem="{Binding Priority}" DisplayMemberPath="Value" />
+
+        </Grid>
             
     </Grid>
     

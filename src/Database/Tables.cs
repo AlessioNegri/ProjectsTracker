@@ -96,5 +96,9 @@ namespace ProjectsTracker.src
         /// <summary> Column 14 </summary>
         [JsonProperty(nameof(Note))]
         public string Note { get; set; }
+
+        /// <summary> Column Extra </summary>
+        [JsonProperty(nameof(Ordering))]
+        public string Ordering { get; set; }
     }
 }

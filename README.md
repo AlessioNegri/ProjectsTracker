@@ -21,6 +21,13 @@ Track features and bugs across multiple projects
 	- Edit Sub Project
 	- Delete Sub Project
 	- Extract Sub Project
+4. Project
+	- Add ECR
+	- Add PR
+	- Add RELEASE
+	- Add PATCH
+	- Edit Row
+	- Delete Row
 
 ## 1. Introduction
 
@@ -186,3 +193,97 @@ delete a sub project.
 ### 3.4 Extract Sub Project
 
 A sub project can be extracted from the solution by dragging it over the orange icon.
+
+## 4. Project
+
+By clicking on a project / sub-project card you can enter in the `Project` page, which is
+composed of three parts:
+
+- At the top there are the buttons to add a new **ECR / PR / RELEASE / PATCH**
+- In the middle there is the table comprising the following informations
+	- Creation Date
+	- Closure Date
+	- Version plus the Discovery Version for PR
+	- Patch Version
+	- Identifier
+	- Status (Assigned - In Progress - Done)
+	- Priority (1 - 2 - 3 - 4 - 5)
+	- Title
+	- Actions (Edit - Delete)
+- At the bottom there are the filters for the table (by default only the last version
+is displayed)
+
+![Project.](./images/project.png)
+
+## 4.1 Add ECR
+
+By clicking on the `Add ECR` button, a dialog appears allowing the user to create a new
+**Engineering Change Request**, giving the following parameters:
+
+- `Importance`
+- `Status`
+- `Creation Date`
+- `Closure Date`
+- `Version`
+- `Patch Version`
+- `Title`
+- `Description`
+
+![Add ECR.](./images/add_ecr.png)
+
+## 4.2 Add PR
+
+By clicking on the `Add PR` button, a dialog appears allowing the user to create a new
+**Problem Report**, giving the following parameters:
+
+- `Importance`
+- `Status`
+- `Creation Date`
+- `Closure Date`
+- `Version`
+- `Patch Version`
+- `Discovery Version`
+- `Title`
+- `Description`
+- `Note`
+
+![Add PR.](./images/add_pr.png)
+
+## 4.3 Add RELEASE
+
+By clicking on the `Add RELEASE` button, a dialog appears allowing the user to create a new
+**Release**, giving the following parameters:
+
+- `Status`
+- `Version`
+- `Creation Date`
+- `Closure Date`
+
+![Add ECR.](./images/add_release.png)
+
+## 4.4 Add PATCH
+
+By clicking on the `Add PATCH` button, a dialog appears allowing the user to create a new
+**Patch**, giving the following parameters:
+
+- `Status`
+- `Version`
+- `Creation Date`
+- `Closure Date`
+- `Patch Version`
+
+![Add PATCH.](./images/add_patch.png)
+
+## 4.5 Edit Row
+
+By clicking on the `pencil` button, a dialog appears allowing the user to edit the
+given row.
+
+![Edit Row.](./images/edit_row.png)
+
+## 4.6 Delete Row
+
+By clicking on the `trash bin` button, a dialog appears allowing the user to delete the
+given row.
+
+![Delete Row.](./images/delete_row.png)

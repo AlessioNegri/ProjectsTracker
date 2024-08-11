@@ -1,5 +1,6 @@
 ﻿using ProjectsTracker.src;
 using ProjectsTracker.src.Database;
+using ProjectsTracker.src.Utility;
 using ProjectsTracker.ui.UserControls;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -170,8 +171,10 @@ namespace ProjectsTracker.ui.Dialogs
         /// <param name="e"> Event arguments </param>
         private void Confirm(object sender, RoutedEventArgs e)
         {
-            Error   = string.Empty;
-            Version = ctbVersion.Text;
+            Error           = string.Empty;
+            CreationDate    = Common.ParseDate(CreationDate);
+            ClosureDate     = Common.ParseDate(ClosureDate);
+            Version         = ctbVersion.Text;
 
             if (errors.Count() > 0)
             {
@@ -179,9 +182,6 @@ namespace ProjectsTracker.ui.Dialogs
 
                 return;
             }
-
-            CreationDate    = (CreationDate == "0000-00-00" || CreationDate == "") ? CreationDate : DateTime.ParseExact(CreationDate, "M/d/yyyy hh:mm:ss tt", System.Globalization.CultureInfo.InvariantCulture).ToString("yyyy-MM-dd");
-            ClosureDate     = (ClosureDate == "0000-00-00" || ClosureDate == "") ? ClosureDate : DateTime.ParseExact(ClosureDate, "M/d/yyyy hh:mm:ss tt", System.Globalization.CultureInfo.InvariantCulture).ToString("yyyy-MM-dd");
 
             if (edit == true)
             {

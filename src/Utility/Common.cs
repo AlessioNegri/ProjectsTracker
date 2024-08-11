@@ -38,6 +38,43 @@
 
             return convertedVersion;
         }
+        
+        /// <summary> Checks if the new version is greater than the old one </summary>
+        /// <param name="new_version"> New version number </param>
+        /// <param name="old_version"> Old version number </param>
+        /// <returns> True if the check was a success </returns>
+        public static bool CheckVersion(in string new_version, in string old_version)
+        {
+            if (new_version == old_version) return true;
+
+            if (string.IsNullOrEmpty(new_version) || string.IsNullOrEmpty(old_version)) return true;
+
+            if (new_version.Split('.').Length > 0 && old_version.Split('.').Length > 0)
+            {
+                if (Int32.Parse(new_version.Split('.')[0]) < Int32.Parse(old_version.Split('.')[0])) return false;
+                if (Int32.Parse(new_version.Split('.')[0]) > Int32.Parse(old_version.Split('.')[0])) return true;
+            }
+
+            if (new_version.Split('.').Length > 1 && old_version.Split('.').Length > 1)
+            {
+                if (Int32.Parse(new_version.Split('.')[1]) < Int32.Parse(old_version.Split('.')[1])) return false;
+                if (Int32.Parse(new_version.Split('.')[1]) > Int32.Parse(old_version.Split('.')[1])) return true;
+            }
+
+            if (new_version.Split('.').Length > 2 && old_version.Split('.').Length > 2)
+            {
+                if (Int32.Parse(new_version.Split('.')[2]) < Int32.Parse(old_version.Split('.')[2])) return false;
+                if (Int32.Parse(new_version.Split('.')[2]) > Int32.Parse(old_version.Split('.')[2])) return true;
+            }
+
+            if (new_version.Split('.').Length > 3 && old_version.Split('.').Length > 3)
+            {
+                if (Int32.Parse(new_version.Split('.')[3]) < Int32.Parse(old_version.Split('.')[3])) return false;
+                if (Int32.Parse(new_version.Split('.')[3]) > Int32.Parse(old_version.Split('.')[3])) return true;
+            }
+
+            return true;
+        }
 
         /// <summary> Encodes in a UNICODE string </summary>
         /// <param name="value"> Not encoded string </param>
@@ -61,6 +98,28 @@
             value = value.Replace("&#44;", "`");
 
             return value;
+        }
+
+        /// <summary> Parses the date to format it correctly </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public static string ParseDate(string date)
+        {
+            if (date == "0000-00-00" || date == "") return date;
+
+            DateTime formatted_date = new DateTime();
+
+            if (DateTime.TryParseExact(date, "M/d/yyyy hh:mm:ss tt", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out formatted_date))
+            {
+                return formatted_date.ToString("yyyy-MM-dd");
+            }
+
+            if (DateTime.TryParseExact(date, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out formatted_date))
+            {
+                return formatted_date.ToString("yyyy-MM-dd");
+            }
+
+            return date;
         }
     }
 }
