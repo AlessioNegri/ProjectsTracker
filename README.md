@@ -215,7 +215,7 @@ is displayed)
 
 ![Project.](./images/project.png)
 
-## 4.1 Add ECR
+### 4.1 Add ECR
 
 By clicking on the `Add ECR` button, a dialog appears allowing the user to create a new
 **Engineering Change Request**, giving the following parameters:
@@ -231,7 +231,7 @@ By clicking on the `Add ECR` button, a dialog appears allowing the user to creat
 
 ![Add ECR.](./images/add_ecr.png)
 
-## 4.2 Add PR
+### 4.2 Add PR
 
 By clicking on the `Add PR` button, a dialog appears allowing the user to create a new
 **Problem Report**, giving the following parameters:
@@ -249,7 +249,7 @@ By clicking on the `Add PR` button, a dialog appears allowing the user to create
 
 ![Add PR.](./images/add_pr.png)
 
-## 4.3 Add RELEASE
+### 4.3 Add RELEASE
 
 By clicking on the `Add RELEASE` button, a dialog appears allowing the user to create a new
 **Release**, giving the following parameters:
@@ -261,7 +261,7 @@ By clicking on the `Add RELEASE` button, a dialog appears allowing the user to c
 
 ![Add ECR.](./images/add_release.png)
 
-## 4.4 Add PATCH
+### 4.4 Add PATCH
 
 By clicking on the `Add PATCH` button, a dialog appears allowing the user to create a new
 **Patch**, giving the following parameters:
@@ -274,14 +274,14 @@ By clicking on the `Add PATCH` button, a dialog appears allowing the user to cre
 
 ![Add PATCH.](./images/add_patch.png)
 
-## 4.5 Edit Row
+### 4.5 Edit Row
 
 By clicking on the `pencil` button, a dialog appears allowing the user to edit the
 given row.
 
 ![Edit Row.](./images/edit_row.png)
 
-## 4.6 Delete Row
+### 4.6 Delete Row
 
 By clicking on the `trash bin` button, a dialog appears allowing the user to delete the
 given row.
